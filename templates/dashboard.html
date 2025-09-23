@@ -1,0 +1,432 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - HeartCare{% endblock %}
+
+{% block content %}
+<div class="dashboard-container">
+    <!-- Dashboard Hero Section -->
+    <section class="py-5">
+        <div class="container">
+            <!-- Welcome Section -->
+            <div class="row mb-5">
+                <div class="col-12">
+                    <div class="glass-card p-5 text-center">
+                        <div class="mb-4">
+                            <i class="fas fa-tachometer-alt fa-4x text-primary"></i>
+                        </div>
+                        <h1 class="display-4 fw-bold text-white mb-3">
+                            Heart Health Dashboard
+                        </h1>
+                        <p class="lead text-white-50 mb-4">
+                            Track your cardiovascular health journey with personalized insights and predictions
+                        </p>
+                        <div class="d-flex flex-wrap justify-content-center gap-3">
+                            <a href="{{ url_for('predict_page') }}" class="btn btn-primary btn-lg px-4 py-3">
+                                <i class="fas fa-heartbeat me-2"></i> New Assessment
+                            </a>
+                            <a href="{{ url_for('health_tips') }}" class="btn btn-success btn-lg px-4 py-3">
+                                <i class="fas fa-heart me-2"></i> Health Tips
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="container pb-5">
+    
+    <!-- Statistics Cards -->
+    <div class="row mb-5">
+        <div class="col-md-3 mb-4">
+            <div class="glass-card text-center p-4 h-100">
+                <div class="mb-3">
+                    <i class="fas fa-chart-line fa-3x text-primary"></i>
+                </div>
+                <h3 class="fw-bold text-white mb-2">{{ predictions|length }}</h3>
+                <p class="text-white-50 mb-0">Total Predictions</p>
+                <div class="mt-3">
+                    <div class="progress" style="height: 4px;">
+                        <div class="progress-bar bg-primary" style="width: {{ (predictions|length * 10) if predictions|length < 10 else 100 }}%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-3 mb-4">
+            <div class="glass-card text-center p-4 h-100">
+                <div class="mb-3">
+                    <i class="fas fa-calendar-alt fa-3x text-success"></i>
+                </div>
+                <h5 class="fw-bold text-white mb-2">
+                    {% if predictions %}
+                        {{ predictions[-1].timestamp.split(' ')[0] }}
+                    {% else %}
+                        No data
+                    {% endif %}
+                </h5>
+                <p class="text-white-50 mb-0">Last Assessment</p>
+                {% if predictions %}
+                <small class="text-white-50">{{ predictions[-1].timestamp.split(' ')[1] }}</small>
+                {% endif %}
+            </div>
+        </div>
+        
+        <div class="col-md-3 mb-4">
+            <div class="glass-card text-center p-4 h-100">
+                {% if predictions %}
+                    {% set latest = predictions[-1] %}
+                    <div class="mb-3">
+                        <i class="fas fa-heart fa-3x text-{{ latest.risk_color }}"></i>
+                    </div>
+                    <h4 class="fw-bold text-{{ latest.risk_color }} mb-2">{{ latest.risk_level }}</h4>
+                    <p class="text-white-50 mb-2">Current Risk Level</p>
+                    <span class="badge bg-{{ latest.risk_color }} fs-6">{{ latest.risk_percentage }}%</span>
+                {% else %}
+                    <div class="mb-3">
+                        <i class="fas fa-heart fa-3x text-secondary"></i>
+                    </div>
+                    <h4 class="fw-bold text-white mb-2">N/A</h4>
+                    <p class="text-white-50 mb-0">Current Risk Level</p>
+                {% endif %}
+            </div>
+        </div>
+        
+        <div class="col-md-3 mb-4">
+            <div class="glass-card text-center p-4 h-100">
+                {% if predictions %}
+                    {% set avg_risk = (predictions | sum(attribute='risk_percentage') / predictions | length) | round(1) %}
+                    <div class="mb-3">
+                        <i class="fas fa-chart-bar fa-3x text-info"></i>
+                    </div>
+                    <h3 class="fw-bold text-info mb-2">{{ avg_risk }}%</h3>
+                    <p class="text-white-50 mb-2">Average Risk</p>
+                    <div class="progress" style="height: 6px;">
+                        <div class="progress-bar bg-info" style="width: {{ avg_risk }}%"></div>
+                    </div>
+                {% else %}
+                    <div class="mb-3">
+                        <i class="fas fa-chart-bar fa-3x text-secondary"></i>
+                    </div>
+                    <h3 class="fw-bold text-white mb-2">N/A</h3>
+                    <p class="text-white-50 mb-0">Average Risk</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    
+    {% if predictions %}
+    <!-- Risk Trend Chart -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header bg-info text-white">
+                    <h4 class="mb-0">
+                        <i class="fas fa-chart-area"></i> Risk Trend Analysis
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <canvas id="riskTrendChart" height="100"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Recent Predictions -->
+    <div class="row">
+        <div class="col-12">
+            <div class="glass-card">
+                <div class="card-header bg-gradient bg-success text-white d-flex justify-content-between align-items-center p-4">
+                    <h3 class="mb-0 fw-bold">
+                        <i class="fas fa-history me-2"></i> Prediction History
+                    </h3>
+                    <div class="d-flex align-items-center gap-3">
+                        <span class="badge bg-light text-dark fs-6 px-3 py-2">{{ predictions|length }} total</span>
+                        {% if predictions %}
+                        <button class="btn btn-outline-light btn-sm px-3 py-2" onclick="deleteAllPredictions()" title="Delete All History">
+                            <i class="fas fa-trash-alt me-1"></i> Clear All
+                        </button>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0">
+                            <thead class="table-light">
+                                <tr>
+                                    <th><i class="fas fa-calendar"></i> Date & Time</th>
+                                    <th><i class="fas fa-heart"></i> Risk Level</th>
+                                    <th><i class="fas fa-percentage"></i> Risk %</th>
+                                    <th><i class="fas fa-cogs"></i> Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for prediction in predictions|reverse %}
+                                <tr id="prediction-{{ prediction.id }}">
+                                    <td>
+                                        <i class="fas fa-clock text-muted me-2"></i>
+                                        {{ prediction.timestamp }}
+                                    </td>
+                                    <td>
+                                        <span class="badge bg-{{ prediction.risk_color }} fs-6">
+                                            <i class="fas fa-heart"></i> {{ prediction.risk_level }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <strong class="text-{{ prediction.risk_color }}">
+                                            {{ prediction.risk_percentage }}%
+                                        </strong>
+                                    </td>
+                                    <td>
+                                        <div class="btn-group" role="group">
+                                            <a href="{{ url_for('results', prediction_id=prediction.id) }}" 
+                                               class="btn btn-sm btn-outline-primary" title="View Details">
+                                                <i class="fas fa-eye"></i>
+                                            </a>
+                                            <button class="btn btn-sm btn-outline-danger" 
+                                                    onclick="deletePrediction({{ prediction.id }})" 
+                                                    title="Delete Prediction">
+                                                <i class="fas fa-trash-alt"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    {% else %}
+    <!-- No Predictions Yet -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card text-center">
+                <div class="card-body p-5">
+                    <i class="fas fa-heartbeat fa-4x text-muted mb-4"></i>
+                    <h3 class="fw-bold mb-3">No Predictions Yet</h3>
+                    <p class="lead text-muted mb-4">
+                        Start your heart health journey by taking your first assessment.
+                    </p>
+                    <a href="{{ url_for('predict_page') }}" class="btn btn-primary btn-lg">
+                        <i class="fas fa-chart-line"></i> Take Your First Assessment
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    
+    <!-- Health Tips -->
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="card border-warning">
+                <div class="card-header bg-warning text-dark">
+                    <h4 class="mb-0">
+                        <i class="fas fa-lightbulb"></i> Heart Health Tips
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <ul class="list-unstyled">
+                                <li class="mb-2">
+                                    <i class="fas fa-check-circle text-success me-2"></i>
+                                    Exercise regularly (at least 150 minutes per week)
+                                </li>
+                                <li class="mb-2">
+                                    <i class="fas fa-check-circle text-success me-2"></i>
+                                    Maintain a healthy diet rich in fruits and vegetables
+                                </li>
+                                <li class="mb-2">
+                                    <i class="fas fa-check-circle text-success me-2"></i>
+                                    Monitor your blood pressure regularly
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <ul class="list-unstyled">
+                                <li class="mb-2">
+                                    <i class="fas fa-check-circle text-success me-2"></i>
+                                    Avoid smoking and limit alcohol consumption
+                                </li>
+                                <li class="mb-2">
+                                    <i class="fas fa-check-circle text-success me-2"></i>
+                                    Manage stress through relaxation techniques
+                                </li>
+                                <li class="mb-2">
+                                    <i class="fas fa-check-circle text-success me-2"></i>
+                                    Get regular health check-ups
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    {% if predictions %}
+    // Create risk trend chart
+    document.addEventListener('DOMContentLoaded', function() {
+        const ctx = document.getElementById('riskTrendChart').getContext('2d');
+        
+        const predictionsData = {{ predictions|tojson }};
+        const labels = predictionsData.map(p => p.timestamp.split(' ')[0]);
+        const riskData = predictionsData.map(p => p.risk_percentage);
+        
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Risk Percentage',
+                    data: riskData,
+                    borderColor: '#e74c3c',
+                    backgroundColor: 'rgba(231, 76, 60, 0.1)',
+                    borderWidth: 3,
+                    fill: true,
+                    tension: 0.4,
+                    pointBackgroundColor: '#e74c3c',
+                    pointBorderColor: '#fff',
+                    pointBorderWidth: 2,
+                    pointRadius: 6
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return `Risk: ${context.parsed.y}%`;
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 100,
+                        ticks: {
+                            callback: function(value) {
+                                return value + '%';
+                            }
+                        },
+                        grid: {
+                            color: 'rgba(0,0,0,0.1)'
+                        }
+                    },
+                    x: {
+                        grid: {
+                            color: 'rgba(0,0,0,0.1)'
+                        }
+                    }
+                },
+                elements: {
+                    point: {
+                        hoverRadius: 8
+                    }
+                }
+            }
+        });
+    });
+    {% endif %}
+    
+    // Add animation to statistics cards
+    document.addEventListener('DOMContentLoaded', function() {
+        const cards = document.querySelectorAll('.card');
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        });
+        
+        cards.forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(card);
+        });
+    });
+    
+    // Delete individual prediction
+    function deletePrediction(predictionId) {
+        if (confirm('Are you sure you want to delete this prediction? This action cannot be undone.')) {
+            fetch(`/delete-prediction/${predictionId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Remove the row from the table with animation
+                    const row = document.getElementById(`prediction-${predictionId}`);
+                    if (row) {
+                        row.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+                        row.style.opacity = '0';
+                        row.style.transform = 'translateX(-100%)';
+                        setTimeout(() => {
+                            row.remove();
+                            // Reload page to update statistics
+                            location.reload();
+                        }, 300);
+                    }
+                } else {
+                    alert('Error deleting prediction: ' + data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Error deleting prediction. Please try again.');
+            });
+        }
+    }
+    
+    // Delete all predictions
+    function deleteAllPredictions() {
+        if (confirm('Are you sure you want to delete ALL predictions? This will permanently remove your entire prediction history and cannot be undone.')) {
+            fetch('/delete-all-predictions', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('All predictions deleted successfully!');
+                    location.reload();
+                } else {
+                    alert('Error deleting predictions: ' + data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Error deleting predictions. Please try again.');
+            });
+        }
+    }
+</script>
+</div> <!-- End dashboard-container -->
+{% endblock %}

@@ -1,0 +1,579 @@
+{% extends "base.html" %}
+
+{% block title %}Health Tips - HeartCare{% endblock %}
+
+{% block content %}
+<div class="health-tips-container">
+    <section class="py-5">
+        <div class="container">
+    <!-- Header Section -->
+    <div class="row mb-5">
+        <div class="col-12 text-center">
+            <div class="glass-card p-5">
+                <h1 class="display-4 fw-bold text-primary mb-4">
+                    <i class="fas fa-heart text-danger"></i> Heart Health Tips
+                </h1>
+                <p class="lead text-muted">
+                    Comprehensive guide to maintaining optimal cardiovascular health through lifestyle, diet, and preventive care
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Navigation -->
+    <div class="row mb-5">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title text-center mb-4">
+                        <i class="fas fa-compass"></i> Quick Navigation
+                    </h5>
+                    <div class="row text-center">
+                        <div class="col-md-2 mb-2">
+                            <a href="#diet" class="btn btn-outline-primary btn-sm">
+                                <i class="fas fa-apple-alt"></i> Diet
+                            </a>
+                        </div>
+                        <div class="col-md-2 mb-2">
+                            <a href="#exercise" class="btn btn-outline-success btn-sm">
+                                <i class="fas fa-running"></i> Exercise
+                            </a>
+                        </div>
+                        <div class="col-md-2 mb-2">
+                            <a href="#lifestyle" class="btn btn-outline-warning btn-sm">
+                                <i class="fas fa-leaf"></i> Lifestyle
+                            </a>
+                        </div>
+                        <div class="col-md-2 mb-2">
+                            <a href="#prevention" class="btn btn-outline-info btn-sm">
+                                <i class="fas fa-shield-alt"></i> Prevention
+                            </a>
+                        </div>
+                        <div class="col-md-2 mb-2">
+                            <a href="#monitoring" class="btn btn-outline-secondary btn-sm">
+                                <i class="fas fa-chart-line"></i> Monitoring
+                            </a>
+                        </div>
+                        <div class="col-md-2 mb-2">
+                            <a href="#emergency" class="btn btn-outline-danger btn-sm">
+                                <i class="fas fa-exclamation-triangle"></i> Emergency
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Diet Section -->
+    <div class="row mb-5" id="diet">
+        <div class="col-12">
+            <div class="card border-primary">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="mb-0">
+                        <i class="fas fa-apple-alt"></i> Heart-Healthy Diet
+                    </h3>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h5 class="text-success">
+                                <i class="fas fa-check-circle"></i> Foods to Include
+                            </h5>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">
+                                    <i class="fas fa-fish text-primary me-2"></i>
+                                    <strong>Fatty Fish:</strong> Salmon, mackerel, sardines (2-3 times/week)
+                                </li>
+                                <li class="list-group-item">
+                                    <i class="fas fa-seedling text-success me-2"></i>
+                                    <strong>Leafy Greens:</strong> Spinach, kale, collard greens
+                                </li>
+                                <li class="list-group-item">
+                                    <i class="fas fa-circle text-warning me-2"></i>
+                                    <strong>Whole Grains:</strong> Oats, quinoa, brown rice, whole wheat
+                                </li>
+                                <li class="list-group-item">
+                                    <i class="fas fa-dot-circle text-info me-2"></i>
+                                    <strong>Berries:</strong> Blueberries, strawberries, blackberries
+                                </li>
+                                <li class="list-group-item">
+                                    <i class="fas fa-circle text-secondary me-2"></i>
+                                    <strong>Nuts & Seeds:</strong> Almonds, walnuts, chia seeds, flaxseeds
+                                </li>
+                                <li class="list-group-item">
+                                    <i class="fas fa-tint text-primary me-2"></i>
+                                    <strong>Olive Oil:</strong> Extra virgin olive oil for cooking
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <h5 class="text-danger">
+                                <i class="fas fa-times-circle"></i> Foods to Limit/Avoid
+                            </h5>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">
+                                    <i class="fas fa-ban text-danger me-2"></i>
+                                    <strong>Processed Meats:</strong> Bacon, sausages, deli meats
+                                </li>
+                                <li class="list-group-item">
+                                    <i class="fas fa-ban text-danger me-2"></i>
+                                    <strong>Trans Fats:</strong> Fried foods, margarine, packaged snacks
+                                </li>
+                                <li class="list-group-item">
+                                    <i class="fas fa-ban text-danger me-2"></i>
+                                    <strong>Excess Sodium:</strong> Limit to <2,300mg daily
+                                </li>
+                                <li class="list-group-item">
+                                    <i class="fas fa-ban text-danger me-2"></i>
+                                    <strong>Added Sugars:</strong> Sodas, candies, pastries
+                                </li>
+                                <li class="list-group-item">
+                                    <i class="fas fa-ban text-danger me-2"></i>
+                                    <strong>Refined Carbs:</strong> White bread, white rice, pastries
+                                </li>
+                                <li class="list-group-item">
+                                    <i class="fas fa-ban text-danger me-2"></i>
+                                    <strong>Excessive Alcohol:</strong> Limit to 1-2 drinks/day max
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Exercise Section -->
+    <div class="row mb-5" id="exercise">
+        <div class="col-12">
+            <div class="card border-success">
+                <div class="card-header bg-success text-white">
+                    <h3 class="mb-0">
+                        <i class="fas fa-running"></i> Exercise & Physical Activity
+                    </h3>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="card h-100">
+                                <div class="card-header bg-light">
+                                    <h5 class="text-primary">
+                                        <i class="fas fa-heartbeat"></i> Aerobic Exercise
+                                    </h5>
+                                </div>
+                                <div class="card-body">
+                                    <p><strong>Goal:</strong> 150 minutes/week moderate intensity</p>
+                                    <ul class="list-unstyled">
+                                        <li><i class="fas fa-walking text-primary me-2"></i>Brisk walking</li>
+                                        <li><i class="fas fa-swimmer text-primary me-2"></i>Swimming</li>
+                                        <li><i class="fas fa-bicycle text-primary me-2"></i>Cycling</li>
+                                        <li><i class="fas fa-music text-primary me-2"></i>Dancing</li>
+                                        <li><i class="fas fa-leaf text-primary me-2"></i>Gardening</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card h-100">
+                                <div class="card-header bg-light">
+                                    <h5 class="text-success">
+                                        <i class="fas fa-dumbbell"></i> Strength Training
+                                    </h5>
+                                </div>
+                                <div class="card-body">
+                                    <p><strong>Goal:</strong> 2-3 days/week</p>
+                                    <ul class="list-unstyled">
+                                        <li><i class="fas fa-weight-hanging text-success me-2"></i>Weight lifting</li>
+                                        <li><i class="fas fa-hand-rock text-success me-2"></i>Resistance bands</li>
+                                        <li><i class="fas fa-male text-success me-2"></i>Bodyweight exercises</li>
+                                        <li><i class="fas fa-yoga text-success me-2"></i>Yoga</li>
+                                        <li><i class="fas fa-spa text-success me-2"></i>Pilates</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card h-100">
+                                <div class="card-header bg-light">
+                                    <h5 class="text-warning">
+                                        <i class="fas fa-balance-scale"></i> Flexibility
+                                    </h5>
+                                </div>
+                                <div class="card-body">
+                                    <p><strong>Goal:</strong> Daily stretching</p>
+                                    <ul class="list-unstyled">
+                                        <li><i class="fas fa-expand-arrows-alt text-warning me-2"></i>Stretching</li>
+                                        <li><i class="fas fa-om text-warning me-2"></i>Yoga</li>
+                                        <li><i class="fas fa-meditation text-warning me-2"></i>Tai Chi</li>
+                                        <li><i class="fas fa-spa text-warning me-2"></i>Pilates</li>
+                                        <li><i class="fas fa-walking text-warning me-2"></i>Cool-down walks</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Lifestyle Section -->
+    <div class="row mb-5" id="lifestyle">
+        <div class="col-12">
+            <div class="card border-warning">
+                <div class="card-header bg-warning text-dark">
+                    <h3 class="mb-0">
+                        <i class="fas fa-leaf"></i> Healthy Lifestyle Habits
+                    </h3>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6 mb-4">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <h5 class="card-title text-primary">
+                                        <i class="fas fa-bed"></i> Quality Sleep
+                                    </h5>
+                                    <ul class="list-unstyled">
+                                        <li><i class="fas fa-clock text-primary me-2"></i>7-9 hours nightly</li>
+                                        <li><i class="fas fa-moon text-primary me-2"></i>Consistent sleep schedule</li>
+                                        <li><i class="fas fa-mobile-alt text-primary me-2"></i>Avoid screens before bed</li>
+                                        <li><i class="fas fa-temperature-low text-primary me-2"></i>Cool, dark room</li>
+                                        <li><i class="fas fa-coffee text-primary me-2"></i>Limit caffeine after 2 PM</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-4">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <h5 class="card-title text-success">
+                                        <i class="fas fa-brain"></i> Stress Management
+                                    </h5>
+                                    <ul class="list-unstyled">
+                                        <li><i class="fas fa-meditation text-success me-2"></i>Meditation/mindfulness</li>
+                                        <li><i class="fas fa-lungs text-success me-2"></i>Deep breathing exercises</li>
+                                        <li><i class="fas fa-users text-success me-2"></i>Social connections</li>
+                                        <li><i class="fas fa-palette text-success me-2"></i>Hobbies and relaxation</li>
+                                        <li><i class="fas fa-user-md text-success me-2"></i>Professional help if needed</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-4">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <h5 class="card-title text-danger">
+                                        <i class="fas fa-smoking-ban"></i> Avoid Harmful Habits
+                                    </h5>
+                                    <ul class="list-unstyled">
+                                        <li><i class="fas fa-ban text-danger me-2"></i>No smoking/tobacco</li>
+                                        <li><i class="fas fa-wine-glass text-danger me-2"></i>Limit alcohol consumption</li>
+                                        <li><i class="fas fa-pills text-danger me-2"></i>Avoid recreational drugs</li>
+                                        <li><i class="fas fa-couch text-danger me-2"></i>Reduce sedentary time</li>
+                                        <li><i class="fas fa-fast-food text-danger me-2"></i>Limit processed foods</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-4">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <h5 class="card-title text-info">
+                                        <i class="fas fa-weight"></i> Maintain Healthy Weight
+                                    </h5>
+                                    <ul class="list-unstyled">
+                                        <li><i class="fas fa-calculator text-info me-2"></i>Know your BMI</li>
+                                        <li><i class="fas fa-balance-scale text-info me-2"></i>Portion control</li>
+                                        <li><i class="fas fa-apple-alt text-info me-2"></i>Balanced nutrition</li>
+                                        <li><i class="fas fa-running text-info me-2"></i>Regular exercise</li>
+                                        <li><i class="fas fa-chart-line text-info me-2"></i>Track progress</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Prevention Section -->
+    <div class="row mb-5" id="prevention">
+        <div class="col-12">
+            <div class="card border-info">
+                <div class="card-header bg-info text-white">
+                    <h3 class="mb-0">
+                        <i class="fas fa-shield-alt"></i> Prevention & Risk Reduction
+                    </h3>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h5 class="text-primary">
+                                <i class="fas fa-stethoscope"></i> Regular Health Screenings
+                            </h5>
+                            <div class="table-responsive">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Test</th>
+                                            <th>Frequency</th>
+                                            <th>Target</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Blood Pressure</td>
+                                            <td>Every 2 years</td>
+                                            <td>&lt;120/80 mmHg</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Cholesterol</td>
+                                            <td>Every 4-6 years</td>
+                                            <td>&lt;200 mg/dL</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Blood Sugar</td>
+                                            <td>Every 3 years</td>
+                                            <td>&lt;100 mg/dL</td>
+                                        </tr>
+                                        <tr>
+                                            <td>BMI</td>
+                                            <td>Annually</td>
+                                            <td>18.5-24.9</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <h5 class="text-success">
+                                <i class="fas fa-pills"></i> Medication Management
+                            </h5>
+                            <ul class="list-group">
+                                <li class="list-group-item">
+                                    <i class="fas fa-check text-success me-2"></i>
+                                    Take medications as prescribed
+                                </li>
+                                <li class="list-group-item">
+                                    <i class="fas fa-check text-success me-2"></i>
+                                    Don't skip doses
+                                </li>
+                                <li class="list-group-item">
+                                    <i class="fas fa-check text-success me-2"></i>
+                                    Discuss side effects with doctor
+                                </li>
+                                <li class="list-group-item">
+                                    <i class="fas fa-check text-success me-2"></i>
+                                    Regular medication reviews
+                                </li>
+                                <li class="list-group-item">
+                                    <i class="fas fa-check text-success me-2"></i>
+                                    Keep updated medication list
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Monitoring Section -->
+    <div class="row mb-5" id="monitoring">
+        <div class="col-12">
+            <div class="card border-secondary">
+                <div class="card-header bg-secondary text-white">
+                    <h3 class="mb-0">
+                        <i class="fas fa-chart-line"></i> Self-Monitoring & Tracking
+                    </h3>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="card text-center">
+                                <div class="card-body">
+                                    <i class="fas fa-tachometer-alt fa-3x text-primary mb-3"></i>
+                                    <h5>Blood Pressure</h5>
+                                    <p class="text-muted">Monitor at home if recommended by doctor</p>
+                                    <ul class="list-unstyled text-start">
+                                        <li><i class="fas fa-clock text-primary me-2"></i>Same time daily</li>
+                                        <li><i class="fas fa-chair text-primary me-2"></i>Seated, relaxed</li>
+                                        <li><i class="fas fa-book text-primary me-2"></i>Keep a log</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card text-center">
+                                <div class="card-body">
+                                    <i class="fas fa-weight fa-3x text-success mb-3"></i>
+                                    <h5>Weight & BMI</h5>
+                                    <p class="text-muted">Track weekly for weight management</p>
+                                    <ul class="list-unstyled text-start">
+                                        <li><i class="fas fa-calendar text-success me-2"></i>Weekly weigh-ins</li>
+                                        <li><i class="fas fa-clock text-success me-2"></i>Same time of day</li>
+                                        <li><i class="fas fa-chart-line text-success me-2"></i>Track trends</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card text-center">
+                                <div class="card-body">
+                                    <i class="fas fa-heartbeat fa-3x text-danger mb-3"></i>
+                                    <h5>Heart Rate</h5>
+                                    <p class="text-muted">Monitor during exercise and rest</p>
+                                    <ul class="list-unstyled text-start">
+                                        <li><i class="fas fa-bed text-danger me-2"></i>Resting: 60-100 bpm</li>
+                                        <li><i class="fas fa-running text-danger me-2"></i>Target during exercise</li>
+                                        <li><i class="fas fa-mobile-alt text-danger me-2"></i>Use fitness trackers</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Emergency Section -->
+    <div class="row mb-5" id="emergency">
+        <div class="col-12">
+            <div class="card border-danger">
+                <div class="card-header bg-danger text-white">
+                    <h3 class="mb-0">
+                        <i class="fas fa-exclamation-triangle"></i> Emergency Warning Signs
+                    </h3>
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-danger">
+                        <h5 class="alert-heading">
+                            <i class="fas fa-phone"></i> Call 911 Immediately if you experience:
+                        </h5>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h5 class="text-danger">
+                                <i class="fas fa-heart"></i> Heart Attack Symptoms
+                            </h5>
+                            <ul class="list-group">
+                                <li class="list-group-item list-group-item-danger">
+                                    <i class="fas fa-exclamation-circle me-2"></i>
+                                    Chest pain or discomfort
+                                </li>
+                                <li class="list-group-item list-group-item-danger">
+                                    <i class="fas fa-exclamation-circle me-2"></i>
+                                    Pain in arms, back, neck, jaw
+                                </li>
+                                <li class="list-group-item list-group-item-danger">
+                                    <i class="fas fa-exclamation-circle me-2"></i>
+                                    Shortness of breath
+                                </li>
+                                <li class="list-group-item list-group-item-danger">
+                                    <i class="fas fa-exclamation-circle me-2"></i>
+                                    Nausea or vomiting
+                                </li>
+                                <li class="list-group-item list-group-item-danger">
+                                    <i class="fas fa-exclamation-circle me-2"></i>
+                                    Cold sweats
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <h5 class="text-warning">
+                                <i class="fas fa-brain"></i> Stroke Symptoms (FAST)
+                            </h5>
+                            <ul class="list-group">
+                                <li class="list-group-item list-group-item-warning">
+                                    <i class="fas fa-smile me-2"></i>
+                                    <strong>Face:</strong> Facial drooping
+                                </li>
+                                <li class="list-group-item list-group-item-warning">
+                                    <i class="fas fa-hand-paper me-2"></i>
+                                    <strong>Arms:</strong> Arm weakness
+                                </li>
+                                <li class="list-group-item list-group-item-warning">
+                                    <i class="fas fa-comment me-2"></i>
+                                    <strong>Speech:</strong> Speech difficulty
+                                </li>
+                                <li class="list-group-item list-group-item-warning">
+                                    <i class="fas fa-clock me-2"></i>
+                                    <strong>Time:</strong> Call 911 immediately
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="row">
+        <div class="col-12 text-center">
+            <div class="glass-card p-4">
+                <h4 class="mb-4">Take Action for Your Heart Health</h4>
+                <div class="d-flex flex-wrap justify-content-center gap-3">
+                    <a href="{{ url_for('predict_page') }}" class="btn btn-primary btn-lg">
+                        <i class="fas fa-heartbeat me-2"></i> Check Your Risk
+                    </a>
+                    <a href="{{ url_for('dashboard') }}" class="btn btn-success btn-lg">
+                        <i class="fas fa-chart-line me-2"></i> View Dashboard
+                    </a>
+                    <a href="{{ url_for('about') }}" class="btn btn-info btn-lg">
+                        <i class="fas fa-info-circle me-2"></i> Learn More
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Smooth scrolling for navigation links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                target.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        });
+    });
+
+    // Add animation on scroll
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
+            }
+        });
+    }, observerOptions);
+
+    // Observe all cards
+    document.querySelectorAll('.card').forEach(card => {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(20px)';
+        card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+        observer.observe(card);
+    });
+</script>
+        </div>
+    </section>
+</div> <!-- End health-tips-container -->
+{% endblock %}

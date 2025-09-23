@@ -1,0 +1,487 @@
+{% extends "base.html" %}
+
+{% block title %}Prediction Results - HeartCare{% endblock %}
+
+{% block content %}
+<div class="results-container">
+    <section>
+        <div class="container py-4">
+    <!-- Header -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h2 class="fw-bold mb-2">
+                        <i class="fas fa-chart-pie text-primary"></i> Prediction Results
+                    </h2>
+                    <p class="text-muted mb-0">
+                        <i class="fas fa-clock"></i> Generated on {{ prediction.timestamp }}
+                    </p>
+                </div>
+                <div>
+                    <a href="{{ url_for('dashboard') }}" class="btn btn-outline-secondary me-2">
+                        <i class="fas fa-arrow-left"></i> Back to Dashboard
+                    </a>
+                    <a href="{{ url_for('predict_page') }}" class="btn btn-primary">
+                        <i class="fas fa-plus"></i> New Prediction
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Main Result Card -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card border-{{ prediction.risk_color }}">
+                <div class="card-header bg-{{ prediction.risk_color }} text-white text-center py-5">
+                    {% if prediction.risk_color == 'success' %}
+                    <div class="mb-3">
+                        <i class="fas fa-shield-check fa-4x text-white"></i>
+                    </div>
+                    <h2 class="mb-3 fw-bold">
+                        <span class="badge bg-light text-success fs-3 px-4 py-2">
+                            ✅ SAFE - RISK NOT DETECTED
+                        </span>
+                    </h2>
+                    {% else %}
+                    <div class="mb-3">
+                        <i class="fas fa-exclamation-triangle fa-4x text-white"></i>
+                    </div>
+                    <h2 class="mb-3 fw-bold">
+                        <span class="badge bg-light text-danger fs-3 px-4 py-2">
+                            ⚠️ RISK DETECTED
+                        </span>
+                    </h2>
+                    {% endif %}
+                    <h4 class="mb-3">Risk Level: {{ prediction.risk_level }}</h4>
+                    <p class="mb-3 lead fs-5">{{ prediction.message }}</p>
+                    {% if prediction.confidence %}
+                    <p class="mb-0">
+                        <small><i class="fas fa-chart-bar"></i> Prediction Confidence: {{ prediction.confidence }}%</small>
+                    </p>
+                    {% endif %}
+                </div>
+                <div class="card-body p-5">
+                    <div class="row align-items-center">
+                        <div class="col-md-6">
+                            <div class="text-center">
+                                <div class="mb-4">
+                                    <span class="display-1 fw-bold text-{{ prediction.risk_color }}">
+                                        {{ prediction.risk_percentage }}%
+                                    </span>
+                                </div>
+                                <div class="progress mb-3" style="height: 20px;">
+                                    <div class="progress-bar bg-{{ prediction.risk_color }}" 
+                                         role="progressbar" 
+                                         style="width: {{ prediction.risk_percentage }}%" 
+                                         aria-valuenow="{{ prediction.risk_percentage }}" 
+                                         aria-valuemin="0" 
+                                         aria-valuemax="100">
+                                    </div>
+                                </div>
+                                <p class="text-muted">Risk Probability</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <canvas id="riskGaugeChart" width="300" height="300"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Input Parameters -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header bg-info text-white">
+                    <h4 class="mb-0">
+                        <i class="fas fa-list-check"></i> Input Parameters Used
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <table class="table table-borderless">
+                                <tr>
+                                    <td><i class="fas fa-calendar-alt text-primary"></i> <strong>Age:</strong></td>
+                                    <td>{{ prediction.input_data.age }} years</td>
+                                </tr>
+                                <tr>
+                                    <td><i class="fas fa-venus-mars text-primary"></i> <strong>Sex:</strong></td>
+                                    <td>{{ 'Male' if prediction.input_data.sex == '1' else 'Female' }}</td>
+                                </tr>
+                                <tr>
+                                    <td><i class="fas fa-lungs text-primary"></i> <strong>Chest Pain Type:</strong></td>
+                                    <td>
+                                        {% set cp_types = ['Asymptomatic', 'Atypical Angina', 'Non-Anginal Pain', 'Typical Angina'] %}
+                                        {{ cp_types[prediction.input_data.cp|int] }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><i class="fas fa-tachometer-alt text-primary"></i> <strong>Blood Pressure:</strong></td>
+                                    <td>{{ prediction.input_data.trestbps }} mmHg</td>
+                                </tr>
+                                <tr>
+                                    <td><i class="fas fa-vial text-primary"></i> <strong>Cholesterol:</strong></td>
+                                    <td>{{ prediction.input_data.chol }} mg/dl</td>
+                                </tr>
+                                <tr>
+                                    <td><i class="fas fa-cube text-primary"></i> <strong>Fasting Blood Sugar:</strong></td>
+                                    <td>{{ '> 120 mg/dl' if prediction.input_data.fbs == '1' else '≤ 120 mg/dl' }}</td>
+                                </tr>
+                                <tr>
+                                    <td><i class="fas fa-heartbeat text-primary"></i> <strong>Resting ECG:</strong></td>
+                                    <td>
+                                        {% set ecg_types = ['Normal', 'ST-T Wave Abnormality', 'Left Ventricular Hypertrophy'] %}
+                                        {{ ecg_types[prediction.input_data.restecg|int] }}
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="col-md-6">
+                            <table class="table table-borderless">
+                                <tr>
+                                    <td><i class="fas fa-heart text-primary"></i> <strong>Max Heart Rate:</strong></td>
+                                    <td>{{ prediction.input_data.thalach }} bpm</td>
+                                </tr>
+                                <tr>
+                                    <td><i class="fas fa-running text-primary"></i> <strong>Exercise Angina:</strong></td>
+                                    <td>{{ 'Yes' if prediction.input_data.exang == '1' else 'No' }}</td>
+                                </tr>
+                                <tr>
+                                    <td><i class="fas fa-chart-line text-primary"></i> <strong>ST Depression:</strong></td>
+                                    <td>{{ prediction.input_data.oldpeak }}</td>
+                                </tr>
+                                <tr>
+                                    <td><i class="fas fa-chart-area text-primary"></i> <strong>ST Slope:</strong></td>
+                                    <td>
+                                        {% set slope_types = ['Downsloping', 'Flat', 'Upsloping'] %}
+                                        {{ slope_types[prediction.input_data.slope|int] }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><i class="fas fa-project-diagram text-primary"></i> <strong>Major Vessels:</strong></td>
+                                    <td>{{ prediction.input_data.ca }}</td>
+                                </tr>
+                                <tr>
+                                    <td><i class="fas fa-dna text-primary"></i> <strong>Thalassemia:</strong></td>
+                                    <td>
+                                        {% set thal_types = ['Normal', 'Fixed Defect', 'Reversible Defect', 'Not Described'] %}
+                                        {{ thal_types[prediction.input_data.thal|int] }}
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Recommendations -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header bg-{% if prediction.risk_color == 'success' %}success text-white{% else %}danger text-white{% endif %}">
+                    <h4 class="mb-0">
+                        {% if prediction.risk_color == 'success' %}
+                            <i class="fas fa-check-circle"></i> Health Maintenance Tips
+                        {% else %}
+                            <i class="fas fa-exclamation-triangle"></i> Important Precautions & Health Tips
+                        {% endif %}
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h5 class="fw-bold text-{{ prediction.risk_color }}">
+                                {% if prediction.risk_color == 'success' %}
+                                    <i class="fas fa-thumbs-up"></i> Maintenance Tips
+                                {% else %}
+                                    <i class="fas fa-shield-alt"></i> Safety Precautions
+                                {% endif %}
+                            </h5>
+                            <ul class="list-unstyled">
+                                {% if prediction.recommendations %}
+                                    {% for recommendation in prediction.recommendations[:8] %}
+                                    <li class="mb-2 p-2 {% if prediction.risk_color == 'success' %}bg-light-success{% else %}bg-light-danger{% endif %} rounded">
+                                        {% if prediction.risk_color == 'success' %}
+                                            <i class="fas fa-leaf text-success me-2"></i>
+                                        {% else %}
+                                            <i class="fas fa-exclamation-circle text-danger me-2"></i>
+                                        {% endif %}
+                                        <span class="{% if prediction.risk_color == 'success' %}text-success{% else %}text-danger{% endif %}">{{ recommendation }}</span>
+                                    </li>
+                                    {% endfor %}
+                                {% else %}
+                                    <!-- Fallback recommendations -->
+                                    {% if prediction.risk_level in ['High', 'Very High'] %}
+                                        <li class="mb-2"><i class="fas fa-user-md text-danger me-2"></i>Consult a cardiologist immediately</li>
+                                        <li class="mb-2"><i class="fas fa-tachometer-alt text-danger me-2"></i>Monitor blood pressure daily</li>
+                                        <li class="mb-2"><i class="fas fa-pills text-danger me-2"></i>Follow prescribed medications strictly</li>
+                                        <li class="mb-2"><i class="fas fa-ban text-danger me-2"></i>Avoid strenuous activities until cleared</li>
+                                    {% elif prediction.risk_level == 'Moderate' %}
+                                        <li class="mb-2"><i class="fas fa-calendar-check text-warning me-2"></i>Schedule regular check-ups</li>
+                                        <li class="mb-2"><i class="fas fa-apple-alt text-warning me-2"></i>Adopt a heart-healthy diet</li>
+                                        <li class="mb-2"><i class="fas fa-dumbbell text-warning me-2"></i>Engage in moderate exercise</li>
+                                        <li class="mb-2"><i class="fas fa-chart-line text-warning me-2"></i>Monitor cholesterol levels</li>
+                                    {% else %}
+                                        <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>Continue healthy lifestyle habits</li>
+                                        <li class="mb-2"><i class="fas fa-running text-success me-2"></i>Maintain regular exercise routine</li>
+                                        <li class="mb-2"><i class="fas fa-heart text-success me-2"></i>Keep up good dietary habits</li>
+                                        <li class="mb-2"><i class="fas fa-smile text-success me-2"></i>Continue stress management</li>
+                                    {% endif %}
+                                {% endif %}
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            {% if prediction.risk_color == 'success' %}
+                            <h5 class="fw-bold text-success">
+                                <i class="fas fa-heart text-success"></i> Keep Your Heart Safe
+                            </h5>
+                            <div class="alert alert-success">
+                                <h6 class="fw-bold">🎉 Congratulations!</h6>
+                                <p class="mb-2">Your heart health parameters are in the safe range. Here's how to maintain this excellent status:</p>
+                            </div>
+                            <ul class="list-unstyled">
+                                <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>Continue your current healthy lifestyle</li>
+                                <li class="mb-2"><i class="fas fa-running text-success me-2"></i>Maintain regular physical activity</li>
+                                <li class="mb-2"><i class="fas fa-apple-alt text-success me-2"></i>Keep eating heart-healthy foods</li>
+                                <li class="mb-2"><i class="fas fa-calendar-check text-success me-2"></i>Annual health screenings</li>
+                                <li class="mb-2"><i class="fas fa-smile text-success me-2"></i>Manage stress effectively</li>
+                                <li class="mb-2"><i class="fas fa-bed text-success me-2"></i>Maintain good sleep habits</li>
+                            </ul>
+                            {% else %}
+                            <h5 class="fw-bold text-danger">
+                                <i class="fas fa-exclamation-triangle text-danger"></i> Immediate Actions Required
+                            </h5>
+                            <div class="alert alert-danger">
+                                <h6 class="fw-bold">⚠️ Important Notice</h6>
+                                <p class="mb-2">Your parameters indicate elevated risk. Take these actions immediately:</p>
+                            </div>
+                            <ul class="list-unstyled">
+                                <li class="mb-2"><i class="fas fa-user-md text-danger me-2"></i>Schedule doctor appointment ASAP</li>
+                                <li class="mb-2"><i class="fas fa-pills text-danger me-2"></i>Review medications with physician</li>
+                                <li class="mb-2"><i class="fas fa-chart-line text-danger me-2"></i>Monitor vital signs daily</li>
+                                <li class="mb-2"><i class="fas fa-phone text-danger me-2"></i>Know emergency contact numbers</li>
+                                <li class="mb-2"><i class="fas fa-ban text-danger me-2"></i>Avoid strenuous activities</li>
+                                <li class="mb-2"><i class="fas fa-clipboard-list text-danger me-2"></i>Follow treatment plan strictly</li>
+                            </ul>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Risk Factors Analysis -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header bg-secondary text-white">
+                    <h4 class="mb-0">
+                        <i class="fas fa-search"></i> Risk Factors Analysis
+                    </h4>
+                </div>
+                <div class="card-body">
+                    {% if prediction.risk_factors %}
+                    <div class="row mb-3">
+                        {% for factor_name, factor_data in prediction.risk_factors.items() %}
+                        <div class="col-md-4 col-sm-6 mb-2">
+                            <div class="card h-100" style="min-height: 120px;">
+                                <div class="card-body p-2">
+                                    <div class="d-flex justify-content-between align-items-center mb-1">
+                                        <h6 class="mb-0 small fw-bold">{{ factor_name }}</h6>
+                                        <span class="badge badge-sm bg-{% if factor_data.level == 'High' %}danger{% elif factor_data.level == 'Moderate' %}warning{% else %}success{% endif %}">
+                                            {{ factor_data.level }}
+                                        </span>
+                                    </div>
+                                    <div class="progress mb-1" style="height: 6px;">
+                                        <div class="progress-bar bg-{% if factor_data.level == 'High' %}danger{% elif factor_data.level == 'Moderate' %}warning{% else %}success{% endif %}" 
+                                             role="progressbar" 
+                                             style="width: {{ factor_data.score }}%" 
+                                             aria-valuenow="{{ factor_data.score }}" 
+                                             aria-valuemin="0" 
+                                             aria-valuemax="100">
+                                        </div>
+                                    </div>
+                                    <small class="text-muted" style="font-size: 0.75rem; line-height: 1.2;">{{ factor_data.message }}</small>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Important Disclaimer -->
+    <div class="row">
+        <div class="col-12">
+            <div class="alert alert-danger" role="alert">
+                <h5 class="alert-heading">
+                    <i class="fas fa-exclamation-triangle"></i> Important Medical Disclaimer
+                </h5>
+                <p class="mb-2">
+                    <strong>This prediction is for educational and informational purposes only.</strong> 
+                    It should not be used as a substitute for professional medical advice, diagnosis, or treatment.
+                </p>
+                <hr>
+                <p class="mb-0">
+                    Always consult with qualified healthcare professionals regarding any medical concerns. 
+                    If you experience symptoms of heart disease or have a medical emergency, seek immediate medical attention.
+                </p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Action Buttons -->
+    <div class="row">
+        <div class="col-12 text-center">
+            <a href="{{ url_for('predict_page') }}" class="btn btn-primary btn-lg me-3">
+                <i class="fas fa-redo"></i> New Assessment
+            </a>
+            <button class="btn btn-success btn-lg me-3" onclick="window.print()">
+                <i class="fas fa-print"></i> Print Results
+            </button>
+            <button class="btn btn-info btn-lg" onclick="shareResults()">
+                <i class="fas fa-share"></i> Share Results
+            </button>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block styles %}
+<style>
+    .bg-light-success {
+        background-color: rgba(25, 135, 84, 0.1) !important;
+        border-left: 4px solid #198754;
+    }
+    
+    .bg-light-danger {
+        background-color: rgba(220, 53, 69, 0.1) !important;
+        border-left: 4px solid #dc3545;
+    }
+    
+    .text-success {
+        color: #198754 !important;
+        font-weight: 500;
+    }
+    
+    .text-danger {
+        color: #dc3545 !important;
+        font-weight: 500;
+    }
+    
+    /* Risk status styling */
+    .risk-not-detected {
+        color: #198754 !important;
+        text-shadow: 0 0 10px rgba(25, 135, 84, 0.3);
+    }
+    
+    .risk-detected {
+        color: #dc3545 !important;
+        text-shadow: 0 0 10px rgba(220, 53, 69, 0.3);
+    }
+    
+    /* Enhanced card styling */
+    .card.border-success {
+        box-shadow: 0 0 20px rgba(25, 135, 84, 0.2);
+    }
+    
+    .card.border-danger {
+        box-shadow: 0 0 20px rgba(220, 53, 69, 0.2);
+    }
+    
+    /* Recommendation list styling */
+    .list-unstyled li {
+        transition: all 0.3s ease;
+    }
+    
+    .list-unstyled li:hover {
+        transform: translateX(5px);
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+</style>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Risk Gauge Chart
+        const gaugeCtx = document.getElementById('riskGaugeChart').getContext('2d');
+        const riskPercentage = {{ prediction.risk_percentage }};
+        
+        new Chart(gaugeCtx, {
+            type: 'doughnut',
+            data: {
+                datasets: [{
+                    data: [riskPercentage, 100 - riskPercentage],
+                    backgroundColor: [
+                        '{% if prediction.risk_level == "Low" %}#27ae60{% elif prediction.risk_level == "Moderate" %}#f39c12{% else %}#e74c3c{% endif %}',
+                        '#ecf0f1'
+                    ],
+                    borderWidth: 0,
+                    cutout: '70%'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        enabled: false
+                    }
+                }
+            },
+            plugins: [{
+                beforeDraw: function(chart) {
+                    const width = chart.width;
+                    const height = chart.height;
+                    const ctx = chart.ctx;
+                    
+                    ctx.restore();
+                    const fontSize = (height / 114).toFixed(2);
+                    ctx.font = fontSize + "em sans-serif";
+                    ctx.textBaseline = "middle";
+                    ctx.fillStyle = "{% if prediction.risk_level == 'Low' %}#27ae60{% elif prediction.risk_level == 'Moderate' %}#f39c12{% else %}#e74c3c{% endif %}";
+                    
+                    const text = riskPercentage + "%";
+                    const textX = Math.round((width - ctx.measureText(text).width) / 2);
+                    const textY = height / 2;
+                    
+                    ctx.fillText(text, textX, textY);
+                    ctx.save();
+                }
+            }]
+        });
+        
+    });
+    
+    function shareResults() {
+        if (navigator.share) {
+            navigator.share({
+                title: 'HeartCare - Heart Disease Risk Assessment',
+                text: 'My heart disease risk assessment shows {{ prediction.risk_level }} risk ({{ prediction.risk_percentage }}%)',
+                url: window.location.href
+            });
+        } else {
+            // Fallback for browsers that don't support Web Share API
+            const url = window.location.href;
+            navigator.clipboard.writeText(url).then(() => {
+                alert('Results URL copied to clipboard!');
+            });
+        }
+    }
+</script>
+{% endblock %}

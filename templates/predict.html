@@ -1,0 +1,472 @@
+{% extends "base.html" %}
+
+{% block title %}Heart Disease Prediction - HeartCare{% endblock %}
+
+{% block content %}
+<div class="predict-container">
+    <!-- Prediction Hero Section -->
+    <section>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-9 mx-auto">
+                    <!-- Header -->
+                    <div class="glass-card predict-header">
+                        <div class="icon-container">
+                            <i class="fas fa-heartbeat fa-3x"></i>
+                        </div>
+                        <h2>Heart Disease Risk Assessment</h2>
+                        <p>Analysis using 13 health parameters</p>
+                        
+                        <div class="feature-icons row justify-content-center g-4">
+                            <div class="col-md-3 icon-item">
+                                <i class="fas fa-brain text-primary"></i>
+                                <h6 class="text-white">Smart Analysis</h6>
+                            </div>
+                            <div class="col-md-3 icon-item">
+                                <i class="fas fa-clock text-success"></i>
+                                <h6 class="text-white">Instant Results</h6>
+                            </div>
+                            <div class="col-md-3 icon-item">
+                                <i class="fas fa-shield-alt text-info"></i>
+                                <h6 class="text-white">95% Accurate</h6>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Prediction Form -->
+                    <div class="glass-card predict-form mt-4">
+                    <form id="predictionForm">
+                        <div class="row">
+                            <!-- Age -->
+                            <div class="col-md-6 mb-4">
+                                <label for="age" class="form-label fw-bold">
+                                    <i class="fas fa-calendar-alt text-primary"></i> Age
+                                </label>
+                                <input type="number" class="form-control" id="age" name="age" 
+                                       min="1" max="120" required placeholder="Enter your age">
+                                <div class="form-text">Age in years (1-120)</div>
+                            </div>
+                            
+                            <!-- Sex -->
+                            <div class="col-md-6 mb-4">
+                                <label for="sex" class="form-label fw-bold">
+                                    <i class="fas fa-venus-mars text-primary"></i> Sex
+                                </label>
+                                <select class="form-control" id="sex" name="sex" required>
+                                    <option value="">Select your sex</option>
+                                    <option value="0">Female</option>
+                                    <option value="1">Male</option>
+                                </select>
+                            </div>
+                            
+                            <!-- Chest Pain Type -->
+                            <div class="col-md-6 mb-4">
+                                <label for="cp" class="form-label fw-bold">
+                                    <i class="fas fa-lungs text-primary"></i> Chest Pain Type
+                                </label>
+                                <select class="form-control" id="cp" name="cp" required>
+                                    <option value="">Select chest pain type</option>
+                                    <option value="0">Asymptomatic</option>
+                                    <option value="1">Atypical Angina</option>
+                                    <option value="2">Non-Anginal Pain</option>
+                                    <option value="3">Typical Angina</option>
+                                </select>
+                            </div>
+                            
+                            <!-- Resting Blood Pressure -->
+                            <div class="col-md-6 mb-4">
+                                <label for="trestbps" class="form-label fw-bold">
+                                    <i class="fas fa-tachometer-alt text-primary"></i> Resting Blood Pressure
+                                </label>
+                                <input type="number" class="form-control" id="trestbps" name="trestbps" 
+                                       min="80" max="250" required placeholder="e.g., 120">
+                                <div class="form-text">Systolic BP in mmHg (80-250)</div>
+                            </div>
+                            
+                            <!-- Cholesterol -->
+                            <div class="col-md-6 mb-4">
+                                <label for="chol" class="form-label fw-bold">
+                                    <i class="fas fa-vial text-primary"></i> Cholesterol Level
+                                </label>
+                                <input type="number" class="form-control" id="chol" name="chol" 
+                                       min="100" max="500" required placeholder="e.g., 200">
+                                <div class="form-text">Serum cholesterol in mg/dl (100-500)</div>
+                            </div>
+                            
+                            <!-- Fasting Blood Sugar -->
+                            <div class="col-md-6 mb-4">
+                                <label for="fbs" class="form-label fw-bold">
+                                    <i class="fas fa-cube text-primary"></i> Fasting Blood Sugar
+                                </label>
+                                <select class="form-control" id="fbs" name="fbs" required>
+                                    <option value="">Select fasting blood sugar</option>
+                                    <option value="0">≤ 120 mg/dl (Normal)</option>
+                                    <option value="1">> 120 mg/dl (High)</option>
+                                </select>
+                            </div>
+                            
+                            <!-- Resting ECG -->
+                            <div class="col-md-6 mb-4">
+                                <label for="restecg" class="form-label fw-bold">
+                                    <i class="fas fa-heartbeat text-primary"></i> Resting ECG Results
+                                </label>
+                                <select class="form-control" id="restecg" name="restecg" required>
+                                    <option value="">Select ECG results</option>
+                                    <option value="0">Normal</option>
+                                    <option value="1">ST-T Wave Abnormality</option>
+                                    <option value="2">Left Ventricular Hypertrophy</option>
+                                </select>
+                            </div>
+                            
+                            <!-- Maximum Heart Rate -->
+                            <div class="col-md-6 mb-4">
+                                <label for="thalach" class="form-label fw-bold">
+                                    <i class="fas fa-heart text-primary"></i> Maximum Heart Rate
+                                </label>
+                                <input type="number" class="form-control" id="thalach" name="thalach" 
+                                       min="60" max="250" required placeholder="e.g., 150">
+                                <div class="form-text">Max heart rate achieved (60-250 bpm)</div>
+                            </div>
+                            
+                            <!-- Exercise Induced Angina -->
+                            <div class="col-md-6 mb-4">
+                                <label for="exang" class="form-label fw-bold">
+                                    <i class="fas fa-running text-primary"></i> Exercise Induced Angina
+                                </label>
+                                <select class="form-control" id="exang" name="exang" required>
+                                    <option value="">Select option</option>
+                                    <option value="0">No</option>
+                                    <option value="1">Yes</option>
+                                </select>
+                            </div>
+                            
+                            <!-- ST Depression -->
+                            <div class="col-md-6 mb-4">
+                                <label for="oldpeak" class="form-label fw-bold">
+                                    <i class="fas fa-chart-line text-primary"></i> ST Depression
+                                </label>
+                                <input type="number" class="form-control" id="oldpeak" name="oldpeak" 
+                                       min="0" max="10" step="0.1" required placeholder="e.g., 1.5">
+                                <div class="form-text">ST depression induced by exercise (0-10)</div>
+                            </div>
+                            
+                            <!-- Slope -->
+                            <div class="col-md-6 mb-4">
+                                <label for="slope" class="form-label fw-bold">
+                                    <i class="fas fa-chart-area text-primary"></i> ST Slope
+                                </label>
+                                <select class="form-control" id="slope" name="slope" required>
+                                    <option value="">Select slope type</option>
+                                    <option value="0">Downsloping</option>
+                                    <option value="1">Flat</option>
+                                    <option value="2">Upsloping</option>
+                                </select>
+                            </div>
+                            
+                            <!-- Number of Major Vessels -->
+                            <div class="col-md-6 mb-4">
+                                <label for="ca" class="form-label fw-bold">
+                                    <i class="fas fa-project-diagram text-primary"></i> Major Vessels
+                                </label>
+                                <select class="form-control" id="ca" name="ca" required>
+                                    <option value="">Number of major vessels</option>
+                                    <option value="0">0</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                </select>
+                                <div class="form-text">Colored by fluoroscopy (0-3)</div>
+                            </div>
+                            
+                            <!-- Thalassemia -->
+                            <div class="col-md-6 mb-4">
+                                <label for="thal" class="form-label fw-bold">
+                                    <i class="fas fa-dna text-primary"></i> Thalassemia
+                                </label>
+                                <select class="form-control" id="thal" name="thal" required>
+                                    <option value="">Select thalassemia type</option>
+                                    <option value="0">Normal</option>
+                                    <option value="1">Fixed Defect</option>
+                                    <option value="2">Reversible Defect</option>
+                                    <option value="3">Not Described</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <!-- Submit Button -->
+                        <div class="text-center mt-4">
+                            <button type="submit" class="btn btn-primary btn-lg px-5" id="predictBtn">
+                                <i class="fas fa-chart-line"></i> Analyze Heart Disease Risk
+                            </button>
+                        </div>
+                        
+                        <!-- Loading Indicator -->
+                        <div class="text-center mt-4 loading" id="loadingDiv">
+                            <div class="spinner-border text-primary" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                            <p class="mt-2">Analyzing your data...</p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            
+            <!-- Results Section -->
+            <div id="resultsSection" style="display: none;" class="mt-4">
+                <div class="card">
+                    <div class="card-header bg-success text-white text-center py-3">
+                        <h3 class="mb-0">
+                            <i class="fas fa-chart-pie"></i> Prediction Results
+                        </h3>
+                    </div>
+                    <div class="card-body p-4">
+                        <div id="predictionResult"></div>
+                        
+                        <!-- Risk Chart -->
+                        <div class="row mt-4">
+                            <div class="col-md-6">
+                                <canvas id="riskChart" width="400" height="400"></canvas>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="h-100 d-flex align-items-center">
+                                    <div class="w-100">
+                                        <h5 class="fw-bold mb-3">Risk Factors Analysis</h5>
+                                        <div id="riskFactors"></div>
+                                        
+                                        <div class="mt-4 p-3 bg-light rounded">
+                                            <h6 class="fw-bold">
+                                                <i class="fas fa-info-circle text-info"></i> Important Note
+                                            </h6>
+                                            <p class="mb-0 small">
+                                                This prediction is for educational purposes only and should not replace 
+                                                professional medical advice. Please consult with a healthcare provider 
+                                                for proper medical evaluation and treatment.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Action Buttons -->
+                        <div class="text-center mt-4">
+                            <button class="btn btn-outline-primary me-2" onclick="resetForm()">
+                                <i class="fas fa-redo"></i> New Prediction
+                            </button>
+                            <button class="btn btn-outline-success" onclick="window.print()">
+                                <i class="fas fa-print"></i> Print Results
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+let riskChart = null;
+
+document.getElementById('predictionForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    // Show loading
+    document.getElementById('loadingDiv').style.display = 'block';
+    document.getElementById('predictBtn').disabled = true;
+    document.getElementById('resultsSection').style.display = 'none';
+    
+    // Collect form data
+    const formData = new FormData(this);
+    const data = {};
+    for (let [key, value] of formData.entries()) {
+        data[key] = value;
+    }
+    
+    try {
+        // Make prediction request
+        const response = await fetch('/api/predict', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data)
+        });
+        
+        const result = await response.json();
+        
+        if (result.success) {
+            // Redirect to results page
+            window.location.href = `/results/${result.prediction_id}`;
+        } else {
+            alert('Error: ' + result.error);
+        }
+        
+    } catch (error) {
+        alert('Error making prediction: ' + error.message);
+    } finally {
+        // Hide loading
+        document.getElementById('loadingDiv').style.display = 'none';
+        document.getElementById('predictBtn').disabled = false;
+    }
+});
+
+function displayResults(result) {
+    // Update results section
+    const resultsDiv = document.getElementById('predictionResult');
+    const riskClass = `risk-${result.risk_level.toLowerCase()}`;
+    
+    resultsDiv.innerHTML = `
+        <div class="prediction-result ${riskClass}">
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <h4 class="fw-bold mb-3">
+                        <i class="fas fa-heartbeat"></i> Risk Assessment: ${result.risk_level}
+                    </h4>
+                    <p class="lead mb-2">${result.message}</p>
+                    <div class="d-flex align-items-center">
+                        <div class="me-3">
+                            <span class="h2 fw-bold">${result.risk_percentage}%</span>
+                        </div>
+                        <div>
+                            <div class="progress" style="width: 200px; height: 10px;">
+                                <div class="progress-bar bg-white" role="progressbar" 
+                                     style="width: ${result.risk_percentage}%" 
+                                     aria-valuenow="${result.risk_percentage}" 
+                                     aria-valuemin="0" aria-valuemax="100">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 text-center">
+                    <i class="fas fa-heart fa-4x opacity-50"></i>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    // Create risk chart
+    createRiskChart(result.risk_percentage, result.risk_level);
+    
+    // Display risk factors
+    displayRiskFactors(result);
+    
+    // Show results section
+    document.getElementById('resultsSection').style.display = 'block';
+    
+    // Scroll to results
+    document.getElementById('resultsSection').scrollIntoView({ 
+        behavior: 'smooth' 
+    });
+}
+
+function createRiskChart(riskPercentage, riskLevel) {
+    const ctx = document.getElementById('riskChart').getContext('2d');
+    
+    // Destroy existing chart if it exists
+    if (riskChart) {
+        riskChart.destroy();
+    }
+    
+    const safePercentage = 100 - riskPercentage;
+    
+    riskChart = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: ['Risk', 'Safe'],
+            datasets: [{
+                data: [riskPercentage, safePercentage],
+                backgroundColor: [
+                    riskLevel === 'Low' ? '#27ae60' : 
+                    riskLevel === 'Moderate' ? '#f39c12' : '#e74c3c',
+                    '#ecf0f1'
+                ],
+                borderWidth: 0
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'bottom'
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            return context.label + ': ' + context.parsed + '%';
+                        }
+                    }
+                }
+            }
+        }
+    });
+}
+
+function displayRiskFactors(result) {
+    const factorsDiv = document.getElementById('riskFactors');
+    
+    let recommendations = [];
+    
+    if (result.risk_level === 'High') {
+        recommendations = [
+            'Consult a cardiologist immediately',
+            'Monitor blood pressure regularly',
+            'Follow a heart-healthy diet',
+            'Engage in regular exercise (as approved by doctor)',
+            'Consider stress management techniques'
+        ];
+    } else if (result.risk_level === 'Moderate') {
+        recommendations = [
+            'Schedule regular check-ups',
+            'Maintain a healthy lifestyle',
+            'Monitor cholesterol levels',
+            'Exercise regularly',
+            'Manage stress effectively'
+        ];
+    } else {
+        recommendations = [
+            'Continue healthy lifestyle habits',
+            'Regular health screenings',
+            'Maintain current exercise routine',
+            'Keep up good dietary habits',
+            'Stay stress-free'
+        ];
+    }
+    
+    let html = '<ul class="list-unstyled">';
+    recommendations.forEach(rec => {
+        html += `<li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>${rec}</li>`;
+    });
+    html += '</ul>';
+    
+    factorsDiv.innerHTML = html;
+}
+
+function resetForm() {
+    document.getElementById('predictionForm').reset();
+    document.getElementById('resultsSection').style.display = 'none';
+    document.querySelector('.card').scrollIntoView({ behavior: 'smooth' });
+}
+
+// Form validation and real-time feedback
+document.querySelectorAll('input, select').forEach(element => {
+    element.addEventListener('input', function() {
+        if (this.checkValidity()) {
+            this.classList.remove('is-invalid');
+            this.classList.add('is-valid');
+        } else {
+            this.classList.remove('is-valid');
+            this.classList.add('is-invalid');
+        }
+    });
+});
+</script>
+                </div>
+            </div>
+        </div>
+    </section>
+</div> <!-- End predict-container -->
+{% endblock %}

@@ -1,0 +1,286 @@
+{% extends "base.html" %}
+
+{% block title %}HeartCare - Heart Disease Prediction{% endblock %}
+
+{% block content %}
+<style>
+/* Inline styles for home page background - highest priority */
+body.home-page {
+    background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
+                url('/static/images/heart12.jpg') !important;
+    background-size: cover !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+    background-attachment: fixed !important;
+    min-height: 100vh !important;
+}
+
+body.home-page section,
+body.home-page .py-5,
+body.home-page main,
+body.home-page .hero-section {
+    background: none !important;
+    background-color: transparent !important;
+}
+
+body.home-page footer {
+    background: rgba(0, 0, 0, 0.3) !important;
+    background-color: rgba(0, 0, 0, 0.3) !important;
+}
+</style>
+
+<script>
+    // Add home-page class to body for specific styling
+    document.addEventListener('DOMContentLoaded', function() {
+        document.body.classList.add('home-page');
+        console.log('Home page class added to body');
+        
+        // Force apply background style
+        document.body.style.background = 'linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url("/static/images/heart12.jpg")';
+        document.body.style.backgroundSize = 'cover';
+        document.body.style.backgroundPosition = 'center';
+        document.body.style.backgroundRepeat = 'no-repeat';
+        document.body.style.backgroundAttachment = 'fixed';
+        document.body.style.minHeight = '100vh';
+    });
+    
+    // Also add immediately in case DOMContentLoaded already fired
+    document.body.classList.add('home-page');
+</script>
+<!-- Hero Section with Glass Heart Background -->
+<section class="hero-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-10 mx-auto text-center">
+                <div class="glass-card p-5 mb-4">
+                    <h1 class="display-3 fw-bold mb-4">
+                        <i class="fas fa-heartbeat text-danger"></i> HeartCare
+                    </h1>
+                    <p class="lead mb-5 fs-4 text-info">
+                        Advanced machine learning technology powered by medical expertise to assess your heart disease risk in real-time. 
+                        Get instant, accurate predictions based on your comprehensive health parameters.
+                    </p>
+                    <div class="d-flex flex-wrap justify-content-center gap-3">
+                        <a href="{{ url_for('predict_page') }}" class="btn btn-primary btn-lg px-4 py-3">
+                            <i class="fas fa-chart-line me-2"></i> Start Heart Assessment
+                        </a>
+                        <a href="{{ url_for('dashboard') }}" class="btn btn-success btn-lg px-4 py-3">
+                            <i class="fas fa-tachometer-alt me-2"></i> View Dashboard
+                        </a>
+                        <a href="{{ url_for('health_tips') }}" class="btn btn-warning btn-lg px-4 py-3">
+                            <i class="fas fa-heart me-2"></i> Health Tips
+                        </a>
+                        <a href="{{ url_for('about') }}" class="btn btn-outline-light btn-lg px-4 py-3">
+                            <i class="fas fa-info-circle me-2"></i> Learn More
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Quick Stats -->
+                <div class="row mt-5">
+                    <div class="col-md-4 mb-3">
+                        <div class="glass-card p-4 text-center">
+                            <i class="fas fa-users fa-3x text-primary mb-3"></i>
+                            <h4 class="fw-bold text-white">10,000+</h4>
+                            <p class="text-white-50 mb-0">Predictions Made</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <div class="glass-card p-4 text-center">
+                            <i class="fas fa-percentage fa-3x text-success mb-3"></i>
+                            <h4 class="fw-bold text-white">95%</h4>
+                            <p class="text-white-50 mb-0">Accuracy Rate</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <div class="glass-card p-4 text-center">
+                            <i class="fas fa-clock fa-3x text-warning mb-3"></i>
+                            <h4 class="fw-bold text-white">&lt;2s</h4>
+                            <p class="text-white-50 mb-0">Response Time</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section class="py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center mb-5">
+                <h2 class="display-5 fw-bold text-white">Why Choose HeartCare AI?</h2>
+                <p class="lead text-white-50">Advanced features for accurate heart disease prediction</p>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h4>AI-Powered Analysis</h4>
+                    <p>Our machine learning model analyzes multiple health parameters to provide accurate risk assessment using advanced Random Forest algorithms.</p>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="card feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <h4>Real-Time Results</h4>
+                    <p>Get instant predictions within seconds. No waiting, no delays - just immediate insights into your heart health status.</p>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="card feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h4>Privacy Protected</h4>
+                    <p>Your health data is processed securely and never stored. All predictions are made locally with complete privacy protection.</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row mt-4">
+            <div class="col-md-4">
+                <div class="card feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-bar"></i>
+                    </div>
+                    <h4>Detailed Analytics</h4>
+                    <p>Comprehensive risk analysis with percentage scores and visual indicators to help you understand your heart health better.</p>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="card feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <h4>Mobile Friendly</h4>
+                    <p>Access from any device - desktop, tablet, or mobile. Our responsive design ensures a seamless experience everywhere.</p>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="card feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-user-md"></i>
+                    </div>
+                    <h4>Medical Grade</h4>
+                    <p>Built with medical professionals' input and validated against clinical standards for reliable health assessments.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Statistics Section -->
+<section class="py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body p-5">
+                        <div class="row text-center">
+                            <div class="col-md-3">
+                                <div class="mb-3">
+                                    <i class="fas fa-users fa-3x text-primary"></i>
+                                </div>
+                                <h3 class="fw-bold">10,000+</h3>
+                                <p class="text-muted">Predictions Made</p>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="mb-3">
+                                    <i class="fas fa-percentage fa-3x text-success"></i>
+                                </div>
+                                <h3 class="fw-bold">95%</h3>
+                                <p class="text-muted">Accuracy Rate</p>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="mb-3">
+                                    <i class="fas fa-clock fa-3x text-warning"></i>
+                                </div>
+                                <h3 class="fw-bold">&lt;2s</h3>
+                                <p class="text-muted">Average Response Time</p>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="mb-3">
+                                    <i class="fas fa-star fa-3x text-info"></i>
+                                </div>
+                                <h3 class="fw-bold">4.9/5</h3>
+                                <p class="text-muted">User Rating</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Call to Action -->
+<section class="py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto text-center">
+                <div class="card">
+                    <div class="card-body p-5">
+                        <h3 class="fw-bold mb-4">Ready to Check Your Heart Health?</h3>
+                        <p class="lead mb-4">
+                            Take control of your cardiovascular health with our advanced AI prediction system. 
+                            Get personalized insights in just a few clicks.
+                        </p>
+                        <a href="{{ url_for('predict_page') }}" class="btn btn-primary btn-lg">
+                            <i class="fas fa-heartbeat"></i> Start Your Assessment Now
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Add smooth scrolling
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            document.querySelector(this.getAttribute('href')).scrollIntoView({
+                behavior: 'smooth'
+            });
+        });
+    });
+    
+    // Add animation on scroll
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
+    
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
+            }
+        });
+    }, observerOptions);
+    
+    // Observe all feature cards
+    document.querySelectorAll('.feature-card').forEach(card => {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(20px)';
+        card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+        observer.observe(card);
+    });
+</script>
+{% endblock %}

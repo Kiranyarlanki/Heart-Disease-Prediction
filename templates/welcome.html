@@ -1,0 +1,262 @@
+{% extends "base.html" %}
+
+{% block title %}Welcome - HeartCare{% endblock %}
+
+{% block content %}
+<div class="auth-container">
+    <!-- Hero Section -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 mx-auto text-center">
+                    <div class="glass-card p-5 mb-5">
+                        <div class="mb-4">
+                            <i class="fas fa-heartbeat fa-5x text-danger mb-3"></i>
+                        </div>
+                        <h1 class="display-3 fw-bold text-white mb-4">
+                            Welcome to HeartCare
+                        </h1>
+                        <p class="lead text-white-50 mb-4">
+                            Advanced heart disease prediction and monitoring system. 
+                            Get personalized health insights and take control of your cardiovascular wellness.
+                        </p>
+                        <div class="d-flex flex-wrap justify-content-center gap-3 mb-4">
+                            <a href="{{ url_for('login') }}" class="btn btn-primary btn-lg px-5 py-3">
+                                <i class="fas fa-sign-in-alt me-2"></i> Sign In
+                            </a>
+                            <a href="{{ url_for('register') }}" class="btn btn-success btn-lg px-5 py-3">
+                                <i class="fas fa-user-plus me-2"></i> Get Started Free
+                            </a>
+                        </div>
+                        <p class="text-white-50 mb-0">
+                            <small>Join thousands of users monitoring their heart health with AI</small>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row mb-5">
+                <div class="col-12 text-center">
+                    <h2 class="display-5 fw-bold text-white mb-3">Why Choose HeartCare?</h2>
+                    <p class="lead text-white-50">Advanced technology meets personalized healthcare</p>
+                </div>
+            </div>
+            
+            <div class="row g-4">
+                <!-- AI Prediction -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="glass-card p-4 h-100 text-center">
+                        <div class="mb-3">
+                            <i class="fas fa-brain fa-3x text-primary"></i>
+                        </div>
+                        <h4 class="fw-bold text-white mb-3">AI-Powered Analysis</h4>
+                        <p class="text-white-50 mb-3">
+                            Our advanced machine learning model analyzes 13 key health parameters 
+                            to provide accurate heart disease risk assessment with 95% accuracy.
+                        </p>
+                        <ul class="list-unstyled text-white-50 text-start">
+                            <li><i class="fas fa-check text-success me-2"></i> 13 Health Parameters</li>
+                            <li><i class="fas fa-check text-success me-2"></i> 95% Accuracy Rate</li>
+                            <li><i class="fas fa-check text-success me-2"></i> Instant Results</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Personal Dashboard -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="glass-card p-4 h-100 text-center">
+                        <div class="mb-3">
+                            <i class="fas fa-chart-line fa-3x text-info"></i>
+                        </div>
+                        <h4 class="fw-bold text-white mb-3">Personal Dashboard</h4>
+                        <p class="text-white-50 mb-3">
+                            Track your health journey with comprehensive analytics, 
+                            prediction history, and personalized insights tailored to your profile.
+                        </p>
+                        <ul class="list-unstyled text-white-50 text-start">
+                            <li><i class="fas fa-check text-success me-2"></i> Health Tracking</li>
+                            <li><i class="fas fa-check text-success me-2"></i> Risk Trends</li>
+                            <li><i class="fas fa-check text-success me-2"></i> Progress Reports</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Expert Recommendations -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="glass-card p-4 h-100 text-center">
+                        <div class="mb-3">
+                            <i class="fas fa-user-md fa-3x text-success"></i>
+                        </div>
+                        <h4 class="fw-bold text-white mb-3">Expert Recommendations</h4>
+                        <p class="text-white-50 mb-3">
+                            Receive personalized health recommendations, lifestyle tips, 
+                            and actionable insights based on your risk assessment results.
+                        </p>
+                        <ul class="list-unstyled text-white-50 text-start">
+                            <li><i class="fas fa-check text-success me-2"></i> Personalized Tips</li>
+                            <li><i class="fas fa-check text-success me-2"></i> Lifestyle Guidance</li>
+                            <li><i class="fas fa-check text-success me-2"></i> Health Education</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Security & Privacy -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="glass-card p-4 h-100 text-center">
+                        <div class="mb-3">
+                            <i class="fas fa-shield-alt fa-3x text-warning"></i>
+                        </div>
+                        <h4 class="fw-bold text-white mb-3">Secure & Private</h4>
+                        <p class="text-white-50 mb-3">
+                            Your health data is protected with enterprise-grade security. 
+                            We prioritize your privacy and never share your personal information.
+                        </p>
+                        <ul class="list-unstyled text-white-50 text-start">
+                            <li><i class="fas fa-check text-success me-2"></i> Data Encryption</li>
+                            <li><i class="fas fa-check text-success me-2"></i> Privacy Protected</li>
+                            <li><i class="fas fa-check text-success me-2"></i> HIPAA Compliant</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Mobile Access -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="glass-card p-4 h-100 text-center">
+                        <div class="mb-3">
+                            <i class="fas fa-mobile-alt fa-3x text-danger"></i>
+                        </div>
+                        <h4 class="fw-bold text-white mb-3">Mobile Friendly</h4>
+                        <p class="text-white-50 mb-3">
+                            Access your health insights anywhere, anytime. Our responsive design 
+                            works perfectly on desktop, tablet, and mobile devices.
+                        </p>
+                        <ul class="list-unstyled text-white-50 text-start">
+                            <li><i class="fas fa-check text-success me-2"></i> Responsive Design</li>
+                            <li><i class="fas fa-check text-success me-2"></i> Cross-Platform</li>
+                            <li><i class="fas fa-check text-success me-2"></i> Offline Access</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- 24/7 Support -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="glass-card p-4 h-100 text-center">
+                        <div class="mb-3">
+                            <i class="fas fa-headset fa-3x text-primary"></i>
+                        </div>
+                        <h4 class="fw-bold text-white mb-3">24/7 Support</h4>
+                        <p class="text-white-50 mb-3">
+                            Get help when you need it with our comprehensive support system, 
+                            health tips library, and community resources.
+                        </p>
+                        <ul class="list-unstyled text-white-50 text-start">
+                            <li><i class="fas fa-check text-success me-2"></i> Help Center</li>
+                            <li><i class="fas fa-check text-success me-2"></i> Health Tips</li>
+                            <li><i class="fas fa-check text-success me-2"></i> Community Support</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 mx-auto text-center">
+                    <div class="glass-card p-5">
+                        <h2 class="display-5 fw-bold text-white mb-4">Ready to Start Your Health Journey?</h2>
+                        <p class="lead text-white-50 mb-4">
+                            Join thousands of users who trust HeartCare for their cardiovascular health monitoring. 
+                            Get started today with your free account.
+                        </p>
+                        <div class="d-flex flex-wrap justify-content-center gap-3 mb-4">
+                            <a href="{{ url_for('register') }}" class="btn btn-success btn-lg px-5 py-3">
+                                <i class="fas fa-rocket me-2"></i> Start Free Trial
+                            </a>
+                            <a href="{{ url_for('login') }}" class="btn btn-outline-light btn-lg px-5 py-3">
+                                <i class="fas fa-sign-in-alt me-2"></i> Sign In
+                            </a>
+                        </div>
+                        
+                        <!-- Demo Account Info -->
+                        <div class="alert alert-info mt-4">
+                            <h6 class="fw-bold mb-2">
+                                <i class="fas fa-info-circle me-2"></i> Try Demo Account
+                            </h6>
+                            <p class="mb-2">Experience HeartCare without registration</p>
+                            <p class="mb-0">
+                                <strong>Username:</strong> demo | <strong>Password:</strong> demo123
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Statistics -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row text-center">
+                <div class="col-md-3 mb-4">
+                    <div class="glass-card p-4">
+                        <h3 class="display-6 fw-bold text-primary mb-2">95%</h3>
+                        <p class="text-white-50 mb-0">Prediction Accuracy</p>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <div class="glass-card p-4">
+                        <h3 class="display-6 fw-bold text-success mb-2">10K+</h3>
+                        <p class="text-white-50 mb-0">Users Worldwide</p>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <div class="glass-card p-4">
+                        <h3 class="display-6 fw-bold text-info mb-2">50K+</h3>
+                        <p class="text-white-50 mb-0">Health Assessments</p>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <div class="glass-card p-4">
+                        <h3 class="display-6 fw-bold text-warning mb-2">24/7</h3>
+                        <p class="text-white-50 mb-0">Support Available</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Add some interactive animations
+    document.addEventListener('DOMContentLoaded', function() {
+        // Animate cards on scroll
+        const cards = document.querySelectorAll('.glass-card');
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        });
+        
+        cards.forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(card);
+        });
+    });
+</script>
+{% endblock %}

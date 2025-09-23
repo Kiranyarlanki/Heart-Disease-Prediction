@@ -1,0 +1,478 @@
+{% extends "base.html" %}
+
+{% block title %}Settings - HeartCare{% endblock %}
+
+{% block content %}
+<div class="settings-container">
+    <section class="py-5">
+        <div class="container">
+            <!-- Header -->
+            <div class="row mb-5">
+                <div class="col-12">
+                    <div class="glass-card p-5 text-center">
+                        <div class="mb-4">
+                            <i class="fas fa-cog fa-4x text-primary"></i>
+                        </div>
+                        <h1 class="display-4 fw-bold text-white mb-3">
+                            Settings & Preferences
+                        </h1>
+                        <p class="lead text-white-50 mb-4">
+                            Customize your HeartCare experience for optimal usability
+                        </p>
+                        <div class="d-flex justify-content-center gap-3">
+                            <a href="{{ url_for('dashboard') }}" class="btn btn-success btn-lg px-4 py-3">
+                                <i class="fas fa-tachometer-alt me-2"></i> Dashboard
+                            </a>
+                            <a href="{{ url_for('predict_page') }}" class="btn btn-primary btn-lg px-4 py-3">
+                                <i class="fas fa-heartbeat me-2"></i> New Assessment
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Appearance Settings -->
+            <div class="row mb-5">
+                <div class="col-12">
+                    <div class="glass-card">
+                        <div class="card-header bg-primary text-white p-4">
+                            <h3 class="mb-0 fw-bold">
+                                <i class="fas fa-palette me-2"></i> Appearance
+                            </h3>
+                        </div>
+                        <div class="card-body p-4">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <h5 class="fw-bold mb-3 text-white">Theme Selection</h5>
+                                    <p class="text-white-50 mb-4">Choose your preferred theme for the application</p>
+                                    
+                                    <div class="theme-options">
+                                        <div class="form-check mb-3">
+                                            <input class="form-check-input" type="radio" name="theme" id="lightTheme" value="light" checked>
+                                            <label class="form-check-label d-flex align-items-center text-white" for="lightTheme">
+                                                <i class="fas fa-sun text-warning me-2"></i>
+                                                <div>
+                                                    <strong>Light Theme</strong>
+                                                    <br><small class="text-white-50">Clean and bright interface</small>
+                                                </div>
+                                            </label>
+                                        </div>
+                                        
+                                        <div class="form-check mb-3">
+                                            <input class="form-check-input" type="radio" name="theme" id="darkTheme" value="dark">
+                                            <label class="form-check-label d-flex align-items-center text-white" for="darkTheme">
+                                                <i class="fas fa-moon text-info me-2"></i>
+                                                <div>
+                                                    <strong>Dark Theme</strong>
+                                                    <br><small class="text-white-50">Easy on the eyes for low-light environments</small>
+                                                </div>
+                                            </label>
+                                        </div>
+                                        
+                                        <div class="form-check mb-3">
+                                            <input class="form-check-input" type="radio" name="theme" id="autoTheme" value="auto">
+                                            <label class="form-check-label d-flex align-items-center text-white" for="autoTheme">
+                                                <i class="fas fa-adjust text-secondary me-2"></i>
+                                                <div>
+                                                    <strong>Auto Theme</strong>
+                                                    <br><small class="text-white-50">Follows your system preference</small>
+                                                </div>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="alert alert-success mb-4">
+                                        <h6 class="fw-bold mb-2">
+                                            <i class="fas fa-palette me-2"></i> Settings Page Theme Control
+                                        </h6>
+                                        <p class="mb-2">This theme control only affects the settings page appearance.</p>
+                                        <p class="mb-0">
+                                            <strong>Note:</strong> Other pages use the navbar toggle 
+                                            <i class="fas fa-sun"></i>/<i class="fas fa-moon"></i> for theme changes.
+                                        </p>
+                                    </div>
+                                    
+                                    <div class="d-flex gap-2 mb-4">
+                                        <button type="button" class="btn btn-primary btn-lg px-4 py-3" onclick="applyTheme()">
+                                            <i class="fas fa-check me-2"></i> Apply Settings Theme
+                                        </button>
+                                        <button type="button" class="btn btn-outline-info btn-lg px-4 py-3" onclick="resetSettingsTheme()">
+                                            <i class="fas fa-undo me-2"></i> Reset Settings Theme
+                                        </button>
+                                    </div>
+                                    
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <h5 class="fw-bold mb-3 text-white">Theme Preview</h5>
+                                    <div class="theme-preview p-4 border rounded bg-white" id="themePreview">
+                                        <div class="preview-header bg-primary text-white p-3 rounded mb-3">
+                                            <h6 class="mb-0"><i class="fas fa-heartbeat me-2"></i> HeartCare</h6>
+                                        </div>
+                                        <div class="preview-content">
+                                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                                <h6 class="fw-bold mb-0">Risk Assessment</h6>
+                                                <span class="badge bg-success fs-6">Low Risk</span>
+                                            </div>
+                                            <div class="progress mb-3" style="height: 8px;">
+                                                <div class="progress-bar bg-success" style="width: 25%"></div>
+                                            </div>
+                                            <p class="text-muted mb-0">Sample prediction result with enhanced styling</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    
+            <!-- Notification Settings -->
+            <div class="row mb-5">
+                <div class="col-12">
+                    <div class="glass-card">
+                        <div class="card-header bg-info text-white p-4">
+                            <h3 class="mb-0 fw-bold">
+                                <i class="fas fa-bell me-2"></i> Notifications
+                            </h3>
+                        </div>
+                <div class="card-body p-4">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-check form-switch mb-3">
+                                <input class="form-check-input" type="checkbox" id="emailNotifications" checked>
+                                <label class="form-check-label" for="emailNotifications">
+                                    <strong>Email Notifications</strong>
+                                    <br><small class="text-muted">Receive health tips and reminders via email</small>
+                                </label>
+                            </div>
+                            
+                            <div class="form-check form-switch mb-3">
+                                <input class="form-check-input" type="checkbox" id="pushNotifications">
+                                <label class="form-check-label" for="pushNotifications">
+                                    <strong>Push Notifications</strong>
+                                    <br><small class="text-muted">Browser notifications for important updates</small>
+                                </label>
+                            </div>
+                            
+                            <div class="form-check form-switch mb-3">
+                                <input class="form-check-input" type="checkbox" id="reminderNotifications" checked>
+                                <label class="form-check-label" for="reminderNotifications">
+                                    <strong>Health Reminders</strong>
+                                    <br><small class="text-muted">Periodic reminders for health check-ups</small>
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <h6 class="fw-bold mb-3">Notification Frequency</h6>
+                            <select class="form-select mb-3" id="notificationFrequency">
+                                <option value="daily">Daily</option>
+                                <option value="weekly" selected>Weekly</option>
+                                <option value="monthly">Monthly</option>
+                                <option value="never">Never</option>
+                            </select>
+                            
+                            <button type="button" class="btn btn-info" onclick="saveNotificationSettings()">
+                                <i class="fas fa-save"></i> Save Notification Settings
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Privacy Settings -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header bg-warning text-dark">
+                    <h4 class="mb-0">
+                        <i class="fas fa-shield-alt"></i> Privacy & Data
+                    </h4>
+                </div>
+                <div class="card-body p-4">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-check form-switch mb-3">
+                                <input class="form-check-input" type="checkbox" id="dataAnalytics" checked>
+                                <label class="form-check-label" for="dataAnalytics">
+                                    <strong>Anonymous Analytics</strong>
+                                    <br><small class="text-muted">Help improve the app with anonymous usage data</small>
+                                </label>
+                            </div>
+                            
+                            <div class="form-check form-switch mb-3">
+                                <input class="form-check-input" type="checkbox" id="dataExport" checked>
+                                <label class="form-check-label" for="dataExport">
+                                    <strong>Data Export</strong>
+                                    <br><small class="text-muted">Allow exporting your health data</small>
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <h6 class="fw-bold mb-3">Data Management</h6>
+                            <button type="button" class="btn btn-outline-primary me-2 mb-2" onclick="exportData()">
+                                <i class="fas fa-download"></i> Export My Data
+                            </button>
+                            <button type="button" class="btn btn-outline-danger mb-2" onclick="deleteAccount()">
+                                <i class="fas fa-trash"></i> Delete Account
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+            <!-- Account Settings -->
+            <div class="row mb-5">
+                <div class="col-12">
+                    <div class="glass-card">
+                        <div class="card-header bg-secondary text-white p-4">
+                            <h3 class="mb-0 fw-bold">
+                                <i class="fas fa-user-cog me-2"></i> Account
+                            </h3>
+                        </div>
+                <div class="card-body p-4">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h6 class="fw-bold mb-3">Application Information</h6>
+                            <p><strong>Application:</strong> HeartCare</p>
+                            <p><strong>Version:</strong> 2.0</p>
+                            <p><strong>Status:</strong> Active</p>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <h6 class="fw-bold mb-3">Account Actions</h6>
+                            <button type="button" class="btn btn-outline-primary me-2 mb-2" onclick="changePassword()">
+                                <i class="fas fa-key"></i> Change Password
+                            </button>
+                            <button type="button" class="btn btn-outline-secondary mb-2 text-dark" onclick="updateProfile()">
+                                <i class="fas fa-edit"></i> Update Profile
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Settings page theme management - ONLY affects settings page
+    function applyTheme() {
+        const selectedTheme = document.querySelector('input[name="theme"]:checked').value;
+        console.log('Applying theme to settings page only:', selectedTheme);
+        
+        // Get the settings container
+        const settingsContainer = document.querySelector('.settings-container');
+        const body = document.body;
+        
+        // Remove existing settings theme classes
+        settingsContainer.classList.remove('settings-light', 'settings-dark', 'settings-auto');
+        
+        // Apply theme only to settings page
+        if (selectedTheme === 'dark') {
+            settingsContainer.classList.add('settings-dark');
+        } else if (selectedTheme === 'auto') {
+            // Check system preference for settings page
+            if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                settingsContainer.classList.add('settings-dark');
+            } else {
+                settingsContainer.classList.add('settings-light');
+            }
+        } else {
+            settingsContainer.classList.add('settings-light');
+        }
+        
+        // Save settings page theme preference (separate from global theme)
+        localStorage.setItem('heartcare-settings-theme', selectedTheme);
+        
+        // Update preview
+        updateThemePreview(selectedTheme);
+        
+        console.log('Settings page theme applied successfully');
+    }
+    
+    // Reset settings page theme
+    function resetSettingsTheme() {
+        const settingsContainer = document.querySelector('.settings-container');
+        
+        // Remove all settings theme classes
+        settingsContainer.classList.remove('settings-light', 'settings-dark', 'settings-auto');
+        
+        // Reset to light theme
+        settingsContainer.classList.add('settings-light');
+        
+        // Reset radio button to light
+        document.getElementById('lightTheme').checked = true;
+        
+        // Remove saved preference
+        localStorage.removeItem('heartcare-settings-theme');
+        
+        // Update preview
+        updateThemePreview('light');
+        
+        console.log('Settings page theme reset to light');
+    }
+    
+    function updateThemePreview(theme) {
+        const preview = document.getElementById('themePreview');
+        preview.className = 'theme-preview p-3 border rounded';
+        
+        if (theme === 'dark') {
+            preview.classList.add('bg-dark', 'text-light', 'border-secondary');
+        } else {
+            preview.classList.add('bg-light', 'text-dark', 'border-light');
+        }
+    }
+    
+    // Initialize settings page with its own theme system
+    document.addEventListener('DOMContentLoaded', function() {
+        // Load settings page specific theme (separate from global theme)
+        const savedSettingsTheme = localStorage.getItem('heartcare-settings-theme') || 'light';
+        
+        // Set the radio button selection for settings theme
+        try {
+            const themeRadio = document.getElementById(savedSettingsTheme + 'Theme');
+            if (themeRadio) {
+                themeRadio.checked = true;
+            }
+        } catch (e) {
+            console.log('Theme radio not found, using default');
+            document.getElementById('lightTheme').checked = true;
+        }
+        
+        // Apply saved settings theme to settings page
+        const settingsContainer = document.querySelector('.settings-container');
+        settingsContainer.classList.remove('settings-light', 'settings-dark', 'settings-auto');
+        
+        if (savedSettingsTheme === 'dark') {
+            settingsContainer.classList.add('settings-dark');
+        } else if (savedSettingsTheme === 'auto') {
+            if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                settingsContainer.classList.add('settings-dark');
+            } else {
+                settingsContainer.classList.add('settings-light');
+            }
+        } else {
+            settingsContainer.classList.add('settings-light');
+        }
+        
+        // Update preview
+        updateThemePreview(savedSettingsTheme);
+        
+        // Listen for theme radio changes (update preview only)
+        document.querySelectorAll('input[name="theme"]').forEach(radio => {
+            radio.addEventListener('change', function() {
+                updateThemePreview(this.value);
+            });
+        });
+        
+        console.log('Settings page loaded with independent theme system');
+    });
+    
+    // Notification settings
+    function saveNotificationSettings() {
+        const settings = {
+            email: document.getElementById('emailNotifications').checked,
+            push: document.getElementById('pushNotifications').checked,
+            reminders: document.getElementById('reminderNotifications').checked,
+            frequency: document.getElementById('notificationFrequency').value
+        };
+        
+        localStorage.setItem('heartcare-notifications', JSON.stringify(settings));
+        // Silent save - no popup message
+        console.log('Notification settings saved');
+    }
+    
+    // Account functions - silent operations
+    function changePassword() {
+        console.log('Password change feature coming soon');
+    }
+    
+    function updateProfile() {
+        console.log('Profile update feature coming soon');
+    }
+    
+    function exportData() {
+        console.log('Data export feature coming soon');
+    }
+    
+    function deleteAccount() {
+        if (confirm('Are you sure you want to delete your account? This action cannot be undone.')) {
+            console.log('Account deletion feature coming soon');
+        }
+    }
+    
+    // Auto Theme Park functionality REMOVED
+    // Theme changes now only available via navbar toggle button
+
+    // Toast notification function
+    function showToast(message, type = 'info') {
+        // Create toast element
+        const toast = document.createElement('div');
+        toast.className = `alert alert-${type} alert-dismissible fade show position-fixed`;
+        toast.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
+        toast.innerHTML = `
+            ${message}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        `;
+        
+        document.body.appendChild(toast);
+        
+        // Auto remove after 3 seconds
+        setTimeout(() => {
+            if (toast.parentNode) {
+                toast.remove();
+            }
+        }, 3000);
+    }
+</script>
+
+<style>
+    .theme-preview {
+        transition: all 0.3s ease;
+        min-height: 120px;
+    }
+    
+    .form-check-label {
+        cursor: pointer;
+    }
+    
+    .form-check-input:checked + .form-check-label {
+        color: var(--bs-primary);
+    }
+    
+    /* Dark theme styles */
+    .theme-dark {
+        background-color: #1a1a1a !important;
+        color: #ffffff !important;
+    }
+    
+    .theme-dark .card {
+        background-color: #2d2d2d !important;
+        border-color: #404040 !important;
+    }
+    
+    .theme-dark .card-body {
+        background-color: #2d2d2d !important;
+        color: #ffffff !important;
+    }
+    
+    .theme-dark .form-control,
+    .theme-dark .form-select {
+        background-color: #404040 !important;
+        border-color: #555555 !important;
+        color: #ffffff !important;
+    }
+</script>
+        </div>
+    </section>
+</div> <!-- End settings-container -->
+{% endblock %}

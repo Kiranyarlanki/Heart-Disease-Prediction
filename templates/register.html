@@ -1,0 +1,389 @@
+{% extends "base.html" %}
+
+{% block title %}Register - HeartCare{% endblock %}
+
+{% block content %}
+<div class="auth-container register-page">
+    <section class="py-5">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-6 col-md-8">
+                    <!-- Register Form -->
+                    <div class="glass-card p-5 register-card">
+                        <form id="registerForm" method="POST">
+                            <!-- Flash Messages -->
+                            {% with messages = get_flashed_messages(with_categories=true) %}
+                                {% if messages %}
+                                    {% for category, message in messages %}
+                                        <div class="alert alert-{{ 'danger' if category == 'error' else category }} alert-dismissible fade show">
+                                            {{ message }}
+                                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                                        </div>
+                                    {% endfor %}
+                                {% endif %}
+                            {% endwith %}
+
+                            <div class="row">
+                                <!-- Full Name -->
+                                <div class="col-md-6 mb-4">
+                                    <label for="fullname" class="form-label fw-bold text-white">
+                                        <i class="fas fa-id-card text-success me-2"></i> Full Name
+                                    </label>
+                                    <input type="text" class="form-control form-control-lg" id="fullname" name="fullname" 
+                                           required placeholder="Enter your full name" autocomplete="name">
+                                    <div class="invalid-feedback">
+                                        Please enter your full name (at least 2 characters).
+                                    </div>
+                                </div>
+
+                                <!-- Username -->
+                                <div class="col-md-6 mb-4">
+                                    <label for="username" class="form-label fw-bold text-white">
+                                        <i class="fas fa-user text-success me-2"></i> Username
+                                    </label>
+                                    <input type="text" class="form-control form-control-lg" id="username" name="username" 
+                                           required placeholder="Choose a username" autocomplete="username">
+                                    <div class="invalid-feedback">
+                                        Username must be 3-20 characters (letters, numbers, underscore only).
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Email -->
+                            <div class="mb-4">
+                                <label for="email" class="form-label fw-bold text-white">
+                                    <i class="fas fa-envelope text-success me-2"></i> Email Address
+                                </label>
+                                <input type="email" class="form-control form-control-lg" id="email" name="email" 
+                                       required placeholder="Enter your email address" autocomplete="email">
+                                <div class="invalid-feedback">
+                                    Please enter a valid email address.
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <!-- Password -->
+                                <div class="col-md-6 mb-4">
+                                    <label for="password" class="form-label fw-bold text-white">
+                                        <i class="fas fa-lock text-success me-2"></i> Password
+                                    </label>
+                                    <div class="input-group">
+                                        <input type="password" class="form-control form-control-lg" id="password" name="password" 
+                                               required placeholder="Create a password" autocomplete="new-password">
+                                        <button class="btn btn-outline-secondary" type="button" id="togglePassword">
+                                            <i class="fas fa-eye" id="passwordIcon"></i>
+                                        </button>
+                                    </div>
+                                    <div class="invalid-feedback">
+                                        Password must be at least 6 characters long.
+                                    </div>
+                                </div>
+
+                                <!-- Confirm Password -->
+                                <div class="col-md-6 mb-4">
+                                    <label for="confirmPassword" class="form-label fw-bold text-white">
+                                        <i class="fas fa-lock text-success me-2"></i> Confirm Password
+                                    </label>
+                                    <div class="input-group">
+                                        <input type="password" class="form-control form-control-lg" id="confirmPassword" name="confirm_password" 
+                                               required placeholder="Confirm your password" autocomplete="new-password">
+                                        <button class="btn btn-outline-secondary" type="button" id="toggleConfirmPassword">
+                                            <i class="fas fa-eye" id="confirmPasswordIcon"></i>
+                                        </button>
+                                    </div>
+                                    <div class="invalid-feedback">
+                                        Passwords do not match.
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Password Strength Indicator -->
+                            <div class="mb-4">
+                                <div class="password-strength">
+                                    <div class="progress" style="height: 8px;">
+                                        <div class="progress-bar" id="passwordStrength" style="width: 0%"></div>
+                                    </div>
+                                    <small class="text-white-50 mt-1" id="passwordStrengthText">Password strength</small>
+                                </div>
+                            </div>
+
+                            <!-- Age -->
+                            <div class="mb-4">
+                                <label for="age" class="form-label fw-bold text-white">
+                                    <i class="fas fa-calendar-alt text-success me-2"></i> Age
+                                </label>
+                                <input type="number" class="form-control form-control-lg" id="age" name="age" 
+                                       min="13" max="120" required placeholder="Enter your age">
+                                <div class="invalid-feedback">
+                                    Please enter a valid age (13-120 years).
+                                </div>
+                            </div>
+
+                            <!-- Terms and Conditions -->
+                            <div class="mb-4">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="agreeTerms" name="agree_terms" required>
+                                    <label class="form-check-label text-white" for="agreeTerms">
+                                        I agree to the <a href="#" class="text-primary">Terms of Service</a> and 
+                                        <a href="#" class="text-primary">Privacy Policy</a>
+                                    </label>
+                                    <div class="invalid-feedback">
+                                        You must agree to the terms and conditions.
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Register Button -->
+                            <div class="d-grid mb-4">
+                                <button type="submit" class="btn btn-success btn-lg py-3" id="registerBtn">
+                                    <i class="fas fa-user-plus me-2"></i> Create Account
+                                </button>
+                            </div>
+
+                            <!-- Login Link -->
+                            <div class="text-center">
+                                <p class="text-white-50 mb-0">
+                                    Already have an account? 
+                                    <a href="{{ url_for('login') }}" class="text-primary fw-bold text-decoration-none">
+                                        Sign In
+                                    </a>
+                                </p>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Benefits -->
+                    <div class="row mt-4">
+                        <div class="col-md-3 text-center mb-3">
+                            <div class="glass-card p-3">
+                                <i class="fas fa-heartbeat fa-2x text-danger mb-2"></i>
+                                <h6 class="text-white mb-0">AI Analysis</h6>
+                                <small class="text-white-50">Smart Health Insights</small>
+                            </div>
+                        </div>
+                        <div class="col-md-3 text-center mb-3">
+                            <div class="glass-card p-3">
+                                <i class="fas fa-chart-bar fa-2x text-info mb-2"></i>
+                                <h6 class="text-white mb-0">Tracking</h6>
+                                <small class="text-white-50">Health History</small>
+                            </div>
+                        </div>
+                        <div class="col-md-3 text-center mb-3">
+                            <div class="glass-card p-3">
+                                <i class="fas fa-shield-alt fa-2x text-success mb-2"></i>
+                                <h6 class="text-white mb-0">Secure</h6>
+                                <small class="text-white-50">Privacy Protected</small>
+                            </div>
+                        </div>
+                        <div class="col-md-3 text-center mb-3">
+                            <div class="glass-card p-3">
+                                <i class="fas fa-mobile-alt fa-2x text-warning mb-2"></i>
+                                <h6 class="text-white mb-0">Mobile</h6>
+                                <small class="text-white-50">Access Anywhere</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Password visibility toggles
+    document.getElementById('togglePassword').addEventListener('click', function() {
+        const passwordField = document.getElementById('password');
+        const passwordIcon = document.getElementById('passwordIcon');
+        
+        if (passwordField.type === 'password') {
+            passwordField.type = 'text';
+            passwordIcon.className = 'fas fa-eye-slash';
+        } else {
+            passwordField.type = 'password';
+            passwordIcon.className = 'fas fa-eye';
+        }
+    });
+
+    document.getElementById('toggleConfirmPassword').addEventListener('click', function() {
+        const confirmPasswordField = document.getElementById('confirmPassword');
+        const confirmPasswordIcon = document.getElementById('confirmPasswordIcon');
+        
+        if (confirmPasswordField.type === 'password') {
+            confirmPasswordField.type = 'text';
+            confirmPasswordIcon.className = 'fas fa-eye-slash';
+        } else {
+            confirmPasswordField.type = 'password';
+            confirmPasswordIcon.className = 'fas fa-eye';
+        }
+    });
+
+    // Password strength checker
+    document.getElementById('password').addEventListener('input', function() {
+        const password = this.value;
+        const strengthBar = document.getElementById('passwordStrength');
+        const strengthText = document.getElementById('passwordStrengthText');
+        
+        let strength = 0;
+        let strengthLabel = '';
+        
+        if (password.length >= 6) strength += 20;
+        if (password.length >= 8) strength += 20;
+        if (/[a-z]/.test(password)) strength += 20;
+        if (/[A-Z]/.test(password)) strength += 20;
+        if (/[0-9]/.test(password)) strength += 10;
+        if (/[^A-Za-z0-9]/.test(password)) strength += 10;
+        
+        if (strength < 40) {
+            strengthLabel = 'Weak';
+            strengthBar.className = 'progress-bar bg-danger';
+        } else if (strength < 70) {
+            strengthLabel = 'Medium';
+            strengthBar.className = 'progress-bar bg-warning';
+        } else {
+            strengthLabel = 'Strong';
+            strengthBar.className = 'progress-bar bg-success';
+        }
+        
+        strengthBar.style.width = strength + '%';
+        strengthText.textContent = `Password strength: ${strengthLabel}`;
+    });
+
+    // Form validation
+    document.getElementById('registerForm').addEventListener('submit', function(e) {
+        let isValid = true;
+        
+        // Full name validation
+        const fullname = document.getElementById('fullname').value.trim();
+        if (fullname.length < 2) {
+            document.getElementById('fullname').classList.add('is-invalid');
+            isValid = false;
+        } else {
+            document.getElementById('fullname').classList.remove('is-invalid');
+            document.getElementById('fullname').classList.add('is-valid');
+        }
+        
+        // Username validation
+        const username = document.getElementById('username').value.trim();
+        const usernameRegex = /^[a-zA-Z0-9_]{3,20}$/;
+        if (!usernameRegex.test(username)) {
+            document.getElementById('username').classList.add('is-invalid');
+            isValid = false;
+        } else {
+            document.getElementById('username').classList.remove('is-invalid');
+            document.getElementById('username').classList.add('is-valid');
+        }
+        
+        // Email validation
+        const email = document.getElementById('email').value.trim();
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            document.getElementById('email').classList.add('is-invalid');
+            isValid = false;
+        } else {
+            document.getElementById('email').classList.remove('is-invalid');
+            document.getElementById('email').classList.add('is-valid');
+        }
+        
+        // Password validation
+        const password = document.getElementById('password').value;
+        if (password.length < 6) {
+            document.getElementById('password').classList.add('is-invalid');
+            isValid = false;
+        } else {
+            document.getElementById('password').classList.remove('is-invalid');
+            document.getElementById('password').classList.add('is-valid');
+        }
+        
+        // Confirm password validation
+        const confirmPassword = document.getElementById('confirmPassword').value;
+        if (password !== confirmPassword) {
+            document.getElementById('confirmPassword').classList.add('is-invalid');
+            isValid = false;
+        } else {
+            document.getElementById('confirmPassword').classList.remove('is-invalid');
+            document.getElementById('confirmPassword').classList.add('is-valid');
+        }
+        
+        // Age validation
+        const age = parseInt(document.getElementById('age').value);
+        if (age < 13 || age > 120) {
+            document.getElementById('age').classList.add('is-invalid');
+            isValid = false;
+        } else {
+            document.getElementById('age').classList.remove('is-invalid');
+            document.getElementById('age').classList.add('is-valid');
+        }
+        
+        // Terms validation
+        const agreeTerms = document.getElementById('agreeTerms').checked;
+        if (!agreeTerms) {
+            document.getElementById('agreeTerms').classList.add('is-invalid');
+            isValid = false;
+        } else {
+            document.getElementById('agreeTerms').classList.remove('is-invalid');
+            document.getElementById('agreeTerms').classList.add('is-valid');
+        }
+        
+        if (!isValid) {
+            e.preventDefault();
+        } else {
+            // Show loading state
+            const registerBtn = document.getElementById('registerBtn');
+            registerBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Creating Account...';
+            registerBtn.disabled = true;
+        }
+    });
+
+    // Real-time validation
+    document.getElementById('fullname').addEventListener('input', function() {
+        if (this.value.trim().length >= 2) {
+            this.classList.remove('is-invalid');
+            this.classList.add('is-valid');
+        } else {
+            this.classList.remove('is-valid');
+        }
+    });
+
+    document.getElementById('username').addEventListener('input', function() {
+        const usernameRegex = /^[a-zA-Z0-9_]{3,20}$/;
+        if (usernameRegex.test(this.value.trim())) {
+            this.classList.remove('is-invalid');
+            this.classList.add('is-valid');
+        } else {
+            this.classList.remove('is-valid');
+        }
+    });
+
+    document.getElementById('email').addEventListener('input', function() {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (emailRegex.test(this.value.trim())) {
+            this.classList.remove('is-invalid');
+            this.classList.add('is-valid');
+        } else {
+            this.classList.remove('is-valid');
+        }
+    });
+
+    document.getElementById('confirmPassword').addEventListener('input', function() {
+        const password = document.getElementById('password').value;
+        if (this.value === password && password.length >= 6) {
+            this.classList.remove('is-invalid');
+            this.classList.add('is-valid');
+        } else {
+            this.classList.remove('is-valid');
+        }
+    });
+
+    document.getElementById('age').addEventListener('input', function() {
+        const age = parseInt(this.value);
+        if (age >= 13 && age <= 120) {
+            this.classList.remove('is-invalid');
+            this.classList.add('is-valid');
+        } else {
+            this.classList.remove('is-valid');
+        }
+    });
+</script>
+{% endblock %}

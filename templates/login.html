@@ -1,0 +1,185 @@
+{% extends "base.html" %}
+
+{% block title %}Login - HeartCare{% endblock %}
+
+{% block content %}
+<div class="auth-container login-page">
+    <section class="py-5">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-5 col-md-7">
+                        <!-- Login Form -->
+                    <div class="glass-card p-5 login-card">
+                        <form id="loginForm" method="POST">
+                            <!-- Flash Messages -->
+                            {% with messages = get_flashed_messages(with_categories=true) %}
+                                {% if messages %}
+                                    {% for category, message in messages %}
+                                        <div class="alert alert-{{ 'danger' if category == 'error' else category }} alert-dismissible fade show">
+                                            {{ message }}
+                                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                                        </div>
+                                    {% endfor %}
+                                {% endif %}
+                            {% endwith %}
+
+                            <!-- Username Field -->
+                            <div class="mb-4">
+                                <label for="username" class="form-label fw-bold text-white">
+                                    <i class="fas fa-user text-primary me-2"></i> Username
+                                </label>
+                                <input type="text" class="form-control form-control-lg" id="username" name="username" 
+                                       required placeholder="Enter your username" autocomplete="username">
+                                <div class="invalid-feedback">
+                                    Please enter a valid username.
+                                </div>
+                            </div>
+
+                            <!-- Password Field -->
+                            <div class="mb-4">
+                                <label for="password" class="form-label fw-bold text-white">
+                                    <i class="fas fa-lock text-primary me-2"></i> Password
+                                </label>
+                                <div class="input-group">
+                                    <input type="password" class="form-control form-control-lg" id="password" name="password" 
+                                           required placeholder="Enter your password" autocomplete="current-password">
+                                    <button class="btn btn-outline-secondary" type="button" id="togglePassword">
+                                        <i class="fas fa-eye" id="passwordIcon"></i>
+                                    </button>
+                                </div>
+                                <div class="invalid-feedback">
+                                    Please enter your password.
+                                </div>
+                            </div>
+
+                            <!-- Remember Me -->
+                            <div class="mb-4">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="rememberMe" name="remember_me">
+                                    <label class="form-check-label text-white" for="rememberMe">
+                                        Remember me for 30 days
+                                    </label>
+                                </div>
+                            </div>
+
+                            <!-- Login Button -->
+                            <div class="d-grid mb-4">
+                                <button type="submit" class="btn btn-primary btn-lg py-3" id="loginBtn">
+                                    <i class="fas fa-sign-in-alt me-2"></i> Sign In
+                                </button>
+                            </div>
+
+                            <!-- Register Link -->
+                            <div class="text-center">
+                                <p class="text-white-50 mb-0">
+                                    Don't have an account? 
+                                    <a href="{{ url_for('register') }}" class="text-primary fw-bold text-decoration-none">
+                                        Create Account
+                                    </a>
+                                </p>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Features -->
+                    <div class="row mt-4">
+                        <div class="col-md-4 text-center mb-3">
+                            <div class="glass-card p-3">
+                                <i class="fas fa-shield-alt fa-2x text-success mb-2"></i>
+                                <h6 class="text-white mb-0">Secure</h6>
+                                <small class="text-white-50">Protected Login</small>
+                            </div>
+                        </div>
+                        <div class="col-md-4 text-center mb-3">
+                            <div class="glass-card p-3">
+                                <i class="fas fa-chart-line fa-2x text-info mb-2"></i>
+                                <h6 class="text-white mb-0">Analytics</h6>
+                                <small class="text-white-50">Health Tracking</small>
+                            </div>
+                        </div>
+                        <div class="col-md-4 text-center mb-3">
+                            <div class="glass-card p-3">
+                                <i class="fas fa-heart fa-2x text-danger mb-2"></i>
+                                <h6 class="text-white mb-0">AI-Powered</h6>
+                                <small class="text-white-50">Smart Predictions</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Password visibility toggle
+    document.getElementById('togglePassword').addEventListener('click', function() {
+        const passwordField = document.getElementById('password');
+        const passwordIcon = document.getElementById('passwordIcon');
+        
+        if (passwordField.type === 'password') {
+            passwordField.type = 'text';
+            passwordIcon.className = 'fas fa-eye-slash';
+        } else {
+            passwordField.type = 'password';
+            passwordIcon.className = 'fas fa-eye';
+        }
+    });
+
+    // Form validation
+    document.getElementById('loginForm').addEventListener('submit', function(e) {
+        const username = document.getElementById('username').value.trim();
+        const password = document.getElementById('password').value;
+        
+        let isValid = true;
+        
+        // Username validation
+        if (username.length < 3) {
+            document.getElementById('username').classList.add('is-invalid');
+            isValid = false;
+        } else {
+            document.getElementById('username').classList.remove('is-invalid');
+            document.getElementById('username').classList.add('is-valid');
+        }
+        
+        // Password validation
+        if (password.length < 3) {
+            document.getElementById('password').classList.add('is-invalid');
+            isValid = false;
+        } else {
+            document.getElementById('password').classList.remove('is-invalid');
+            document.getElementById('password').classList.add('is-valid');
+        }
+        
+        if (!isValid) {
+            e.preventDefault();
+        } else {
+            // Show loading state
+            const loginBtn = document.getElementById('loginBtn');
+            loginBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Signing In...';
+            loginBtn.disabled = true;
+        }
+    });
+
+    // Real-time validation
+    document.getElementById('username').addEventListener('input', function() {
+        if (this.value.trim().length >= 3) {
+            this.classList.remove('is-invalid');
+            this.classList.add('is-valid');
+        } else {
+            this.classList.remove('is-valid');
+        }
+    });
+
+    document.getElementById('password').addEventListener('input', function() {
+        if (this.value.length >= 3) {
+            this.classList.remove('is-invalid');
+            this.classList.add('is-valid');
+        } else {
+            this.classList.remove('is-valid');
+        }
+    });
+</script>
+{% endblock %}

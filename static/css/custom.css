@@ -1,0 +1,547 @@
+/* Custom styles for HeartCare */
+
+/* Global styles */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+}
+
+/* Home page specific background - applies heart12.jpg to entire page */
+body.home-page,
+html body.home-page {
+    background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
+                url('/static/images/heart12.jpg') !important;
+    background-size: cover !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+    background-attachment: fixed !important;
+    min-height: 100vh !important;
+}
+
+/* Remove any background from sections on home page to show body background */
+body.home-page section,
+body.home-page .py-5,
+body.home-page .container,
+body.home-page main {
+    background: transparent !important;
+    background-color: transparent !important;
+}
+
+/* Make footer transparent on home page to show background */
+body.home-page footer {
+    background: rgba(0, 0, 0, 0.3) !important;
+    background-color: rgba(0, 0, 0, 0.3) !important;
+    backdrop-filter: blur(10px);
+}
+
+/* Override any theme styles for home page */
+body.home-page.theme-dark,
+body.home-page.theme-light {
+    background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
+                url('/static/images/heart12.jpg') !important;
+    background-size: cover !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+    background-attachment: fixed !important;
+}
+
+/* Hero section - on home page, let body background show through */
+body.home-page .hero-section {
+    background: transparent !important;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Hero section for other pages */
+.hero-section {
+    background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
+                url('/static/images/heart12.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    animation: backgroundShift 20s ease-in-out infinite;
+}
+
+/* Subtle background animation */
+@keyframes backgroundShift {
+    0%, 100% { background-position: center center; }
+    50% { background-position: center top; }
+}
+
+/* Add a subtle overlay for better text readability */
+.hero-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.3);
+    z-index: 1;
+}
+
+/* Ensure content is above the overlay */
+.hero-section .container {
+    position: relative;
+    z-index: 2;
+}
+
+/* Enhanced text styling for better visibility */
+.hero-section h1 {
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+    color: white !important;
+}
+
+.hero-section .lead {
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+    color: rgba(255, 255, 255, 0.95) !important;
+}
+
+/* Button enhancements */
+.hero-section .btn {
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+}
+
+.hero-section .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .hero-section {
+        background-attachment: scroll;
+        min-height: 80vh;
+    }
+    
+    .hero-section h1 {
+        font-size: 2.5rem;
+    }
+}
+
+/* Glass effect for cards */
+.glass-card {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 20px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.glass-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s;
+}
+
+.glass-card:hover::before {
+    left: 100%;
+}
+
+.glass-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+    border-color: rgba(255, 255, 255, 0.4);
+}
+
+/* Animated heart beat effect */
+@keyframes heartbeat {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+.hero-section .fa-heartbeat {
+    animation: heartbeat 2s ease-in-out infinite;
+}
+
+/* Dashboard and Prediction page backgrounds */
+.dashboard-hero, .prediction-hero {
+    background: linear-gradient(135deg, rgba(13, 110, 253, 0.6), rgba(220, 53, 69, 0.6)), 
+                url('/static/images/heart12.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    min-height: 100vh;
+    position: relative;
+}
+
+.dashboard-hero::before, .prediction-hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.3);
+    z-index: 1;
+}
+
+.dashboard-hero .container, .prediction-hero .container {
+    position: relative;
+    z-index: 2;
+}
+
+/* Full page background for dashboard and predict pages */
+body.dashboard-page, body.predict-page {
+    background: linear-gradient(135deg, rgba(13, 110, 253, 0.7), rgba(220, 53, 69, 0.7)), 
+                url('/static/images/heart12.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    min-height: 100vh;
+}
+
+/* Container backgrounds for all pages */
+.dashboard-container, .predict-container, .settings-container, .about-container, .health-tips-container, .auth-container {
+    background: linear-gradient(135deg, rgba(13, 110, 253, 0.6), rgba(220, 53, 69, 0.6)), 
+                url('/static/images/heart12.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    min-height: 100vh;
+    position: relative;
+}
+
+.dashboard-container::before, .predict-container::before, .settings-container::before, .about-container::before, .health-tips-container::before, .auth-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.3);
+    z-index: 1;
+}
+
+.dashboard-container > *, .predict-container > *, .settings-container > *, .about-container > *, .health-tips-container > *, .auth-container > * {
+    position: relative;
+    z-index: 2;
+}
+
+/* Enhanced form styling */
+.form-control {
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 10px;
+    padding: 12px 16px;
+    transition: all 0.3s ease;
+}
+
+.form-control:focus {
+    background: rgba(255, 255, 255, 0.95);
+    border-color: #0d6efd;
+    box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+    transform: translateY(-2px);
+}
+
+.form-label {
+    color: white;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.form-text {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.875rem;
+}
+
+/* Enhanced table styling */
+.table {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.table th {
+    background: rgba(13, 110, 253, 0.1);
+    border: none;
+    font-weight: 600;
+    padding: 16px;
+}
+
+.table td {
+    border: none;
+    padding: 16px;
+    vertical-align: middle;
+}
+
+.table-hover tbody tr:hover {
+    background: rgba(13, 110, 253, 0.05);
+    transform: translateX(5px);
+    transition: all 0.3s ease;
+}
+
+/* Progress bars */
+.progress {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.progress-bar {
+    border-radius: 10px;
+    transition: width 0.6s ease;
+}
+
+/* Button enhancements */
+.btn {
+    border-radius: 10px;
+    padding: 10px 20px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    border: none;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Badge styling */
+.badge {
+    border-radius: 8px;
+    padding: 8px 12px;
+    font-weight: 600;
+}
+
+/* Settings page specific theme styles */
+.settings-container.settings-dark {
+    background: linear-gradient(135deg, rgba(33, 37, 41, 0.9), rgba(52, 58, 64, 0.9)), 
+                url('/static/images/heart12.jpg') !important;
+}
+
+/* All glass cards in settings dark theme */
+.settings-container.settings-dark .glass-card {
+    background: rgba(33, 37, 41, 0.85) !important;
+    border-color: rgba(108, 117, 125, 0.4) !important;
+    backdrop-filter: blur(15px) !important;
+}
+
+/* All card headers in settings dark theme */
+.settings-container.settings-dark .card-header {
+    background: rgba(52, 58, 64, 0.9) !important;
+    border-bottom: 1px solid rgba(108, 117, 125, 0.3) !important;
+}
+
+/* All cards in settings dark theme */
+.settings-container.settings-dark .card {
+    background: rgba(33, 37, 41, 0.85) !important;
+    border-color: rgba(108, 117, 125, 0.4) !important;
+    color: #ffffff !important;
+}
+
+.settings-container.settings-dark .card-body {
+    background: rgba(33, 37, 41, 0.7) !important;
+    color: #ffffff !important;
+}
+
+/* Text colors in settings dark theme */
+.settings-container.settings-dark .text-white {
+    color: #ffffff !important;
+}
+
+.settings-container.settings-dark .text-white-50 {
+    color: rgba(255, 255, 255, 0.7) !important;
+}
+
+.settings-container.settings-dark h1,
+.settings-container.settings-dark h2,
+.settings-container.settings-dark h3,
+.settings-container.settings-dark h4,
+.settings-container.settings-dark h5,
+.settings-container.settings-dark h6 {
+    color: #ffffff !important;
+}
+
+.settings-container.settings-dark p,
+.settings-container.settings-dark span,
+.settings-container.settings-dark div {
+    color: #ffffff !important;
+}
+
+.settings-container.settings-dark .text-muted {
+    color: rgba(255, 255, 255, 0.6) !important;
+}
+
+/* Form elements in settings dark theme */
+.settings-container.settings-dark .form-control {
+    background: rgba(52, 58, 64, 0.8) !important;
+    border-color: rgba(108, 117, 125, 0.5) !important;
+    color: #ffffff !important;
+}
+
+.settings-container.settings-dark .form-control:focus {
+    background: rgba(52, 58, 64, 0.9) !important;
+    border-color: #0d6efd !important;
+    color: #ffffff !important;
+    box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25) !important;
+}
+
+.settings-container.settings-dark .form-select {
+    background: rgba(52, 58, 64, 0.8) !important;
+    border-color: rgba(108, 117, 125, 0.5) !important;
+    color: #ffffff !important;
+}
+
+.settings-container.settings-dark .form-check-input {
+    background-color: rgba(52, 58, 64, 0.8) !important;
+    border-color: rgba(108, 117, 125, 0.5) !important;
+}
+
+.settings-container.settings-dark .form-check-input:checked {
+    background-color: #0d6efd !important;
+    border-color: #0d6efd !important;
+}
+
+.settings-container.settings-dark .form-check-label {
+    color: #ffffff !important;
+}
+
+/* Alerts in settings dark theme */
+.settings-container.settings-dark .alert {
+    border-color: rgba(108, 117, 125, 0.3) !important;
+    color: #ffffff !important;
+}
+
+.settings-container.settings-dark .alert-success {
+    background-color: rgba(25, 135, 84, 0.2) !important;
+    border-color: rgba(25, 135, 84, 0.3) !important;
+    color: #ffffff !important;
+}
+
+.settings-container.settings-dark .alert-info {
+    background-color: rgba(13, 202, 240, 0.2) !important;
+    border-color: rgba(13, 202, 240, 0.3) !important;
+    color: #ffffff !important;
+}
+
+/* Buttons in settings dark theme */
+.settings-container.settings-dark .btn {
+    border-color: rgba(108, 117, 125, 0.3) !important;
+}
+
+.settings-container.settings-dark .btn-outline-secondary {
+    color: #ffffff !important;
+    border-color: rgba(108, 117, 125, 0.5) !important;
+}
+
+.settings-container.settings-dark .btn-outline-secondary:hover {
+    background-color: rgba(108, 117, 125, 0.2) !important;
+    color: #ffffff !important;
+}
+
+.settings-container.settings-dark .btn-outline-info {
+    color: #0dcaf0 !important;
+    border-color: rgba(13, 202, 240, 0.5) !important;
+}
+
+.settings-container.settings-dark .btn-outline-info:hover {
+    background-color: rgba(13, 202, 240, 0.2) !important;
+    color: #ffffff !important;
+}
+
+/* Theme preview in settings dark theme */
+.settings-container.settings-dark .theme-preview {
+    background: rgba(52, 58, 64, 0.9) !important;
+    border-color: rgba(108, 117, 125, 0.5) !important;
+    color: #ffffff !important;
+}
+
+.settings-container.settings-dark .theme-preview .preview-header {
+    background: rgba(13, 110, 253, 0.8) !important;
+}
+
+.settings-container.settings-dark .theme-preview .preview-content {
+    color: #ffffff !important;
+}
+
+/* Progress bars in settings dark theme */
+.settings-container.settings-dark .progress {
+    background-color: rgba(52, 58, 64, 0.5) !important;
+}
+
+/* Tables in settings dark theme */
+.settings-container.settings-dark .table {
+    color: #ffffff !important;
+    background: rgba(33, 37, 41, 0.8) !important;
+}
+
+.settings-container.settings-dark .table th {
+    background: rgba(52, 58, 64, 0.8) !important;
+    border-color: rgba(108, 117, 125, 0.3) !important;
+    color: #ffffff !important;
+}
+
+.settings-container.settings-dark .table td {
+    border-color: rgba(108, 117, 125, 0.3) !important;
+    color: #ffffff !important;
+}
+
+.settings-container.settings-light {
+    background: linear-gradient(135deg, rgba(13, 110, 253, 0.6), rgba(220, 53, 69, 0.6)), 
+                url('/static/images/heart12.jpg') !important;
+}
+
+.settings-container.settings-light .glass-card {
+    background: rgba(255, 255, 255, 0.15) !important;
+}
+
+.settings-container.settings-light .text-white {
+    color: #ffffff !important;
+}
+
+.settings-container.settings-light .text-white-50 {
+    color: rgba(255, 255, 255, 0.7) !important;
+}
+
+/* FINAL OVERRIDE - Home page background fix */
+body.home-page {
+    background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
+                url('/static/images/heart12.jpg') !important;
+    background-size: cover !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+    background-attachment: fixed !important;
+    min-height: 100vh !important;
+}
+
+/* Remove all backgrounds from home page elements */
+body.home-page section,
+body.home-page .py-5,
+body.home-page main,
+body.home-page .hero-section {
+    background: none !important;
+    background-color: transparent !important;
+}
+
+/* Home page footer override */
+body.home-page footer {
+    background: rgba(0, 0, 0, 0.3) !important;
+    background-color: rgba(0, 0, 0, 0.3) !important;
+}
